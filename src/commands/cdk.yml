@@ -1,8 +1,6 @@
 description: >
   Run cdk
 
-executor: default
-
 parameters:
   cdk-directory:
     description: the directory where your cdk app resides
@@ -35,15 +33,18 @@ parameters:
     default: ENVIRONMENT
     description: The environment to apply on.
     type: string
-  project:
-    description: The name of the helix project
-    type: string
   notify:
     default: false
     description: whether to notify slack
     type: boolean
+  working-directory:
+    default: ~/workdir
+    description: where to attach_workspace
+    type: string
 
 steps:
+  - attach_workspace:
+      at: << parameters.working-directory >>
   - aws-cli/setup
   - run:
       name: Run Cdk Command
