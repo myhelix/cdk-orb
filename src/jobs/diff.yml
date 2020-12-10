@@ -35,10 +35,6 @@ parameters:
     default: false
     description: whether to notify slack
     type: boolean
-  working-directory:
-    default: ~/workdir
-    description: where to attach_workspace
-    type: string
 
 steps:
   - cdk:
@@ -50,4 +46,3 @@ steps:
       aws_secret_access_key: << parameters.aws_secret_access_key >>
       environment: << parameters.environment >>
       notify: << parameters.notify >>
-      working-directory: << parameters.working-directory >>

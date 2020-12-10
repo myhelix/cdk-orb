@@ -3,7 +3,7 @@ description: >
 
 parameters:
   cdk-directory:
-    description: the directory where your cdk app resides
+    description: the directory where your cdk.json file resides
     type: string
     default: "."
   cdk-command:
@@ -37,14 +37,10 @@ parameters:
     default: false
     description: whether to notify slack
     type: boolean
-  working-directory:
-    default: ~/workdir
-    description: where to attach_workspace
-    type: string
 
 steps:
   - attach_workspace:
-      at: << parameters.working-directory >>
+      at: .
   - aws-cli/setup
   - run:
       name: Run Cdk Command
