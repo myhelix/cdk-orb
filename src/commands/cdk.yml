@@ -2,8 +2,12 @@ description: >
   Run cdk
 
 parameters:
+  attach_at:
+    description: where should we attach the workspace
+    default: "."
+    type: string
   cdk-directory:
-    description: the directory where your cdk.json file resides
+    description: the directory where your cdk.json file resides, relative to attach_at
     type: string
     default: "."
   cdk-command:
@@ -40,7 +44,7 @@ parameters:
 
 steps:
   - attach_workspace:
-      at: .
+      at: << parameters.attach_at >>
   - aws-cli/setup
   - run:
       name: Run Cdk Command
@@ -57,4 +61,4 @@ steps:
       steps:
         - slack/notify:
             color: '#22e33f'
-            message: 'Deployed to production.'
+            message: 'Deployed to << parameters.environment >>.'
