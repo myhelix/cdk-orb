@@ -11,7 +11,7 @@ parameters:
   cdk_params:
     description: the parameters to pass your cdk command
     type: string
-    default: "--all --require-approval=never --ci --progress=events "
+    default: "--all --force "
   aws_access_key_id:
     default: AWS_ACCESS_KEY_ID
     description: |
