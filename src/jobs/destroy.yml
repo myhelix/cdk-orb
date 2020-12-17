@@ -4,11 +4,11 @@ description: >
 executor: default
 
 parameters:
-  cdk-directory:
+  cdk_directory:
     description: the directory where your cdk app resides
     type: string
     default: "."
-  cdk-params:
+  cdk_params:
     description: the parameters to pass your cdk command
     type: string
     default: "--all --require-approval=never --ci --progress=events "
@@ -38,9 +38,9 @@ parameters:
 
 steps:
   - cdk:
-      cdk-command: destroy
-      cdk-directory: << parameters.cdk-directory >>
-      cdk-params: << parameters.cdk-params >>
+      cdk_command: destroy
+      cdk_directory: << parameters.cdk_directory >>
+      cdk_params: << parameters.cdk_params >>
       aws_access_key_id: << parameters.aws_access_key_id >>
       aws_account_id: << parameters.aws_account_id >>
       aws_secret_access_key: << parameters.aws_secret_access_key >>
