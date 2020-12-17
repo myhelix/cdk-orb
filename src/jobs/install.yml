@@ -1,0 +1,36 @@
+description: >
+  npm install
+
+executor: default
+
+parameters:
+  attach_at:
+    description: where should we attach the workspace
+    default: "."
+    type: string
+  cdk_directory:
+    description: the directory where your package.json resides
+    type: string
+    default: "."
+  npm_token:
+    default: NPM_TOKEN
+    description: |
+      The token used to auth with npmjs
+    type: env_var_name
+
+steps:
+  - checkout
+  - run:
+      name: Authenticate with registry
+      command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > $HOME/.npmrc
+  - run:
+      name: Enter directory with package.json
+      command: cd << parameters.cdk_directory >>
+  - node/install-packages
+  - run:
+      name: Clean up credentials.
+      command: rm -f $HOME/.npmrc
+  - persist_to_workspace:
+      root: << parameters.attach_at >>
+      paths:
+        - .

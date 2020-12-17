@@ -1,0 +1,21 @@
+description: >
+  npm run build
+
+executor: default
+
+parameters:
+  cdk_directory:
+    description: the directory where your cdk app resides
+    type: string
+    default: "."
+  npm_params:
+    description: the parameters to pass the `npm run build` command
+    type: string
+    default: ""
+
+steps:
+  - npm:
+      npm_command: run
+      npm_params: build << parameters.npm_params >>
+      npm_directory: << parameters.cdk_directory >>
+      persist: true

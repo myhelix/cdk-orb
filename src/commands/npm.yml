@@ -1,0 +1,40 @@
+description: >
+  Run npm
+
+parameters:
+  attach_at:
+    description: where should we attach the workspace
+    default: "."
+    type: string
+  npm_directory:
+    description: the directory where your package.json file resides, relative to attach_at
+    type: string
+    default: "."
+  npm_command:
+    description: the cdk command to run
+    type: enum
+    enum: ["install", "run"]
+  npm_params:
+    description: the parameters to pass your cdk command
+    type: string
+    default: ""
+  persist:
+    description: Whether or not to persist changes to the workspace
+    default: false
+    type: boolean
+
+steps:
+  - attach_workspace:
+      at: << parameters.attach_at >>
+  - run:
+      name: Npm
+      no_output_timeout: 30m
+      command: |
+        npm << parameters.npm_command >> << parameters.npm_params >>
+  - when:
+      condition: <<parameters.persist>>
+      steps:
+        - persist_to_workspace:
+            root: << parameters.attach_at >>
+            paths:
+              - << parameters.npm_directory >>
