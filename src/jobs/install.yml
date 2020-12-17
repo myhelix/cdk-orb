@@ -23,10 +23,8 @@ steps:
   - run:
       name: Authenticate with registry
       command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > $HOME/.npmrc
-  - run:
-      name: Enter directory with package.json
-      command: cd << parameters.cdk_directory >>
-  - node/install-packages
+  - node/install-packages:
+      app-dir: << parameters.cdk_directory >>
   - run:
       name: Clean up credentials.
       command: rm -f $HOME/.npmrc
