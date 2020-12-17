@@ -30,6 +30,7 @@ steps:
       name: Npm
       no_output_timeout: 30m
       command: |
+        cd << parameters.npm_directory >>
         npm << parameters.npm_command >> << parameters.npm_params >>
   - when:
       condition: <<parameters.persist>>
