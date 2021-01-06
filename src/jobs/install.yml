@@ -26,6 +26,9 @@ steps:
   - node/install-packages:
       app-dir: << parameters.cdk_directory >>
   - run:
+      name: npm whoami
+      command: npm whoami
+  - run:
       name: Clean up credentials.
       command: rm -f $HOME/.npmrc
   - persist_to_workspace:
