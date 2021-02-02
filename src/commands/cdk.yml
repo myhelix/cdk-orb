@@ -13,7 +13,7 @@ parameters:
   cdk_stack:
     description: the name of the stack
     type: string
-    default: "\*"
+    default: "*"
   cdk_command:
     description: the cdk command to run
     type: enum
