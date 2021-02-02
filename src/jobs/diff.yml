@@ -44,6 +44,7 @@ steps:
       cdk_command: diff
       cdk_directory: << parameters.cdk_directory >>
       cdk_params: << parameters.cdk_params >>
+      cdk_stack: << parameters.cdk_stack >>
       aws_access_key_id: << parameters.aws_access_key_id >>
       aws_account_id: << parameters.aws_account_id >>
       aws_secret_access_key: << parameters.aws_secret_access_key >>
