@@ -11,7 +11,10 @@ parameters:
   cdk_params:
     description: the parameters to pass your cdk command
     type: string
-    default: "--all --force "
+    default: "--force "
+  cdk_stack:
+    description: the stack to destroy
+    type: string
   aws_access_key_id:
     default: AWS_ACCESS_KEY_ID
     description: |
@@ -41,6 +44,7 @@ steps:
       cdk_command: destroy
       cdk_directory: << parameters.cdk_directory >>
       cdk_params: << parameters.cdk_params >>
+      cdk_stack: << parameters.cdk_stack >>
       aws_access_key_id: << parameters.aws_access_key_id >>
       aws_account_id: << parameters.aws_account_id >>
       aws_secret_access_key: << parameters.aws_secret_access_key >>
