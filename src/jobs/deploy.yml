@@ -12,6 +12,9 @@ parameters:
     description: the parameters to pass your cdk command
     type: string
     default: "--all --require-approval=never --ci --progress=events "
+  cdk_stack:
+    description: the stack to deploy
+    type: string
   aws_access_key_id:
     default: AWS_ACCESS_KEY_ID
     description: |
@@ -30,7 +33,7 @@ parameters:
   environment:
     default: ENVIRONMENT
     description: The environment to apply on.
-    type: string
+    type: env_var_name
   notify:
     default: false
     description: whether to notify slack

@@ -12,6 +12,9 @@ parameters:
     description: the parameters to pass your cdk command
     type: string
     default: "--all --force "
+  cdk_stack:
+    description: the stack to destroy
+    type: string
   aws_access_key_id:
     default: AWS_ACCESS_KEY_ID
     description: |

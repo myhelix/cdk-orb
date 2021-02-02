@@ -12,6 +12,9 @@ parameters:
     description: the parameters to pass your cdk command
     type: string
     default: "--all --require-approval=never --ci --progress=events "
+  cdk_stack:
+    description: the stack to diff
+    type: string
   aws_access_key_id:
     default: AWS_ACCESS_KEY_ID
     description: |

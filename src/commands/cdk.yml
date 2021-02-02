@@ -10,6 +10,10 @@ parameters:
     description: the directory where your cdk.json file resides, relative to attach_at
     type: string
     default: "."
+  cdk_stack:
+    description: the name of the stack
+    type: string
+    default: "\*"
   cdk_command:
     description: the cdk command to run
     type: enum
@@ -55,7 +59,7 @@ steps:
         export AWS_SECRET_ACCESS_KEY=$(echo $assume_creds | jq -r .Credentials.SecretAccessKey)
         export AWS_SESSION_TOKEN=$(echo $assume_creds | jq -r .Credentials.SessionToken)
         cd << parameters.cdk_directory >>
-        npx cdk << parameters.cdk_command >> << parameters.cdk_params >>
+        npx cdk << parameters.cdk_command >> << parameters.cdk_stack >> << parameters.cdk_params >>
   - when:
       condition: <<parameters.notify>>
       steps:
