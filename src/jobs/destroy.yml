@@ -15,7 +15,7 @@ parameters:
   cdk_stack:
     description: the stack to destroy
     type: string
-    default: "*"
+    default: "'*'"
   aws_access_key_id:
     default: AWS_ACCESS_KEY_ID
     description: |
