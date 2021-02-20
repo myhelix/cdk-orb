@@ -26,6 +26,7 @@ parameters:
 steps:
   - attach_workspace:
       at: << parameters.attach_at >>
+  - node/install-npm
   - run:
       name: npm version
       command: npm version

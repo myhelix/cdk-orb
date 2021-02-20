@@ -50,6 +50,7 @@ steps:
   - attach_workspace:
       at: << parameters.attach_at >>
   - aws-cli/setup
+  - node/install-npm
   - run:
       name: npm version
       command: npm version
