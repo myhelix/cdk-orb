@@ -20,6 +20,10 @@ parameters:
 
 steps:
   - checkout
+  - node/install-npm
+  - run:
+      name: npm version
+      command: npm version
   - run:
       name: Authenticate with registry
       command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > $HOME/.npmrc
