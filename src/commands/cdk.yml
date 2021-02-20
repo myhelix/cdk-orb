@@ -51,6 +51,12 @@ steps:
       at: << parameters.attach_at >>
   - aws-cli/setup
   - run:
+      name: npm version
+      command: npm version
+  - run:
+      name: npm list
+      command: npm list
+  - run:
       name: Run Cdk Command
       no_output_timeout: 30m
       command: |
