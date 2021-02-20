@@ -26,6 +26,13 @@ parameters:
 steps:
   - attach_workspace:
       at: << parameters.attach_at >>
+  - node/install-npm
+  - run:
+      name: npm version
+      command: npm version
+  - run:
+      name: npm list
+      command: npm list
   - run:
       name: Npm
       no_output_timeout: 30m
