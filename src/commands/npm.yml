@@ -13,7 +13,7 @@ parameters:
   npm_command:
     description: the cdk command to run
     type: enum
-    enum: ["install", "run"]
+    enum: ["install", "run", "publish"]
   npm_params:
     description: the parameters to pass your cdk command
     type: string
