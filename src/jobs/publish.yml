@@ -1,0 +1,21 @@
+description: >
+  npm publish
+
+executor: default
+
+parameters:
+  cdk_directory:
+    description: the directory where your cdk app resides
+    type: string
+    default: "."
+  npm_params:
+    description: the parameters to pass the `npm publish` command
+    type: string
+    default: ""
+
+steps:
+  - npm:
+      npm_command: publish
+      npm_params: << parameters.npm_params >>
+      npm_directory: << parameters.cdk_directory >>
+      persist: true
