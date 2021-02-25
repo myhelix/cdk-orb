@@ -14,8 +14,16 @@ parameters:
     default: ""
 
 steps:
+  - run:
+      name: Authenticate with registry
+      command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > $HOME/.npmrc
   - npm:
       npm_command: publish
       npm_params: << parameters.npm_params >>
       npm_directory: << parameters.cdk_directory >>
-      persist: true
+  - run:
+      name: npm whoami
+      command: npm whoami
+  - run:
+      name: Clean up credentials.
+      command: rm -f $HOME/.npmrc
