@@ -1,0 +1,29 @@
+description: >
+  yarn publish
+
+executor: default
+
+parameters:
+  cdk_directory:
+    description: the directory where your cdk app resides
+    type: string
+    default: "."
+  yarn_params:
+    description: the parameters to pass the `yarn publish` command
+    type: string
+    default: ""
+
+steps:
+  - run:
+      name: Authenticate with registry
+      command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > $HOME/.npmrc
+  - yarn:
+      yarn_command: publish
+      yarn_params: << parameters.yarn_params >>
+      yarn_directory: << parameters.cdk_directory >>
+  - run:
+      name: yarn whoami
+      command: yarn whoami
+  - run:
+      name: Clean up credentials.
+      command: rm -f $HOME/.npmrc

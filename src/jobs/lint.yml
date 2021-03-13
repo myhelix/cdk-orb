@@ -1,5 +1,5 @@
 description: >
-  npm run lint
+  yarn run lint
 
 executor: default
 
@@ -8,13 +8,13 @@ parameters:
     description: the directory where your cdk app resides
     type: string
     default: "."
-  npm_params:
-    description: the parameters to pass the `npm run lint` command
+  yarn_params:
+    description: the parameters to pass the `yarn run lint` command
     type: string
     default: ""
 
 steps:
-  - npm:
-      npm_command: run
-      npm_params: lint << parameters.npm_params >>
-      npm_directory: << parameters.cdk_directory >>
+  - yarn:
+      yarn_command: run
+      yarn_params: lint << parameters.yarn_params >>
+      yarn_directory: << parameters.cdk_directory >>
