@@ -53,7 +53,7 @@ steps:
   - node/install-yarn
   - run:
       name: yarn version
-      command: yarn version
+      command: yarn --version
   - run:
       name: yarn list
       command: yarn list
