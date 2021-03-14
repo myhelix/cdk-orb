@@ -41,6 +41,9 @@ workflows:
     unless: << pipeline.parameters.run-integration-tests >>
     jobs:
       - orb-tools/lint # Lint Yaml files
+      - run:
+          name: install yarn
+          command: sudo npm install --global yarn
       - orb-tools/pack # Pack orb source
       - shellcheck/check:
           dir: ./src/scripts
