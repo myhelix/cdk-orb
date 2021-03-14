@@ -14,8 +14,8 @@ parameters:
     default: ""
 
 steps:
-  - node/install-yarn
-  - npm:
+  # - node/install-yarn
+  - yarn:
       yarn_command: run
       yarn_params: build << parameters.yarn_params >>
       yarn_directory: << parameters.cdk_directory >>
