@@ -14,7 +14,7 @@ parameters:
     default: ""
 
 steps:
-  # - node/install-yarn
+  - node/install-yarn
   - yarn:
       yarn_command: run
       yarn_params: build << parameters.yarn_params >>
