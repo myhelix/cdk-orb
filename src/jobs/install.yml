@@ -20,7 +20,7 @@ parameters:
 
 steps:
   - checkout
-  - node/install-yarn
+  # - node/install-yarn
   - run:
       name: yarn version
       command: yarn version
