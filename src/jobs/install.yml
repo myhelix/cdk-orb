@@ -28,6 +28,7 @@ steps:
       name: Authenticate with registry
       command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > $HOME/.npmrc
   - node/install-packages:
+      pkg-manager: yarn
       app-dir: << parameters.cdk_directory >>
   - run:
       name: yarn whoami
