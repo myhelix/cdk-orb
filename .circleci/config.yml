@@ -35,6 +35,7 @@ jobs:
   #     # Push new changes first, before adding new tests to your config.
   #     - cdk/
 
+
 workflows:
   # Prior to producing a development orb (which requires credentials) basic validation, linting, and even unit testing can be performed.
   # This workflow will run on every commit
@@ -42,7 +43,6 @@ workflows:
     unless: << pipeline.parameters.run-integration-tests >>
     jobs:
       - orb-tools/lint # Lint Yaml files
-      - node/install-yarn
       - orb-tools/pack # Pack orb source
       - shellcheck/check:
           dir: ./src/scripts
