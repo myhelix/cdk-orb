@@ -32,7 +32,7 @@ steps:
       app-dir: << parameters.cdk_directory >>
   - run:
       name: yarn whoami
-      command: yarn whoami
+      command: yarn --whoami
   - run:
       name: Clean up credentials.
       command: rm -f $HOME/.npmrc
