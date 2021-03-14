@@ -24,6 +24,7 @@ steps:
   - run:
       name: yarn version
       command: yarn version
+      app-dir: << parameters.cdk_directory >>
   - run:
       name: Authenticate with registry
       command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > $HOME/.npmrc
