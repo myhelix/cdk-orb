@@ -50,13 +50,13 @@ steps:
   - attach_workspace:
       at: << parameters.attach_at >>
   - aws-cli/setup
-  - node/install-npm
+  - node/install-yarn
   - run:
-      name: npm version
-      command: npm version
+      name: yarn version
+      command: yarn --version
   - run:
-      name: npm list
-      command: npm list
+      name: yarn list
+      command: yarn list
   - run:
       name: Run Cdk Command
       no_output_timeout: 30m

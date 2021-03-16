@@ -3,6 +3,11 @@
 
 An Orb to facilitate building, testing and running [aws-cdk](https://github.com/aws/aws-cdk) applications.
 
+## Version notes
+As we are moving to yarn as the default package manager, the latest version of the orb has yarn as the package manager, while the old version uses npm.  
+To use npm be sure the orb version is less than v1.0.0, while anything at level v1.0.0 and higher will use yarn as the package manager.
+
+
 Additional READMEs are available in each directory.
 
 **Meta**: This repository is open for contributions! Feel free to open a pull request with your changes. Due to the nature of this repository, it is not built on CircleCI. The Resources and How to Contribute sections relate to an orb created with this template, rather than the template itself.

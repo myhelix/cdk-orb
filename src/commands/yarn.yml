@@ -1,20 +1,20 @@
 description: >
-  Run npm
+  Run yarn
 
 parameters:
   attach_at:
     description: where should we attach the workspace
     default: "."
     type: string
-  npm_directory:
+  yarn_directory:
     description: the directory where your package.json file resides, relative to attach_at
     type: string
     default: "."
-  npm_command:
+  yarn_command:
     description: the cdk command to run
     type: enum
     enum: ["install", "run"]
-  npm_params:
+  yarn_params:
     description: the parameters to pass your cdk command
     type: string
     default: ""
@@ -26,23 +26,23 @@ parameters:
 steps:
   - attach_workspace:
       at: << parameters.attach_at >>
-  - node/install-npm
+  - node/install-yarn
   - run:
-      name: npm version
-      command: npm version
+      name: yarn version
+      command: yarn --version
   - run:
-      name: npm list
-      command: npm list
+      name: yarn list
+      command: yarn list
   - run:
-      name: Npm
+      name: yarn
       no_output_timeout: 30m
       command: |
-        cd << parameters.npm_directory >>
-        npm << parameters.npm_command >> << parameters.npm_params >>
+        cd << parameters.yarn_directory >>
+        yarn << parameters.yarn_command >> << parameters.yarn_params >>
   - when:
       condition: <<parameters.persist>>
       steps:
         - persist_to_workspace:
             root: << parameters.attach_at >>
             paths:
-              - << parameters.npm_directory >>
+              - << parameters.yarn_directory >>

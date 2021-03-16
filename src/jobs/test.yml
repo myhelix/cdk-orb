@@ -1,5 +1,5 @@
 description: >
-  npm run test
+  yarn run test
 
 executor: default
 
@@ -8,15 +8,16 @@ parameters:
     description: the directory where your cdk app resides
     type: string
     default: "."
-  npm_params:
-    description: the parameters to pass the `npm run test` command
+  yarn_params:
+    description: the parameters to pass the `yarn run test` command
     type: string
     default: ""
 
 steps:
-  - npm:
-      npm_command: run
-      npm_params: test << parameters.npm_params >>
-      npm_directory: << parameters.cdk_directory >>
+  - node/install-yarn
+  - yarn:
+      yarn_command: run
+      yarn_params: test << parameters.yarn_params >>
+      yarn_directory: << parameters.cdk_directory >>
   # TODO collect test data
   # https://circleci.com/docs/2.0/collect-test-data/#jest

@@ -1,5 +1,5 @@
 description: >
-  npm install
+  yarn install
 
 executor: default
 
@@ -20,18 +20,19 @@ parameters:
 
 steps:
   - checkout
-  - node/install-npm
+  # - node/install-yarn
   - run:
-      name: npm version
-      command: npm version
+      name: yarn version
+      command: yarn --version
   - run:
       name: Authenticate with registry
       command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > $HOME/.npmrc
   - node/install-packages:
+      pkg-manager: yarn
       app-dir: << parameters.cdk_directory >>
   - run:
-      name: npm whoami
-      command: npm whoami
+      name: yarn whoami
+      command: yarn --whoami
   - run:
       name: Clean up credentials.
       command: rm -f $HOME/.npmrc
