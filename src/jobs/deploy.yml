@@ -41,6 +41,9 @@ parameters:
     type: boolean
 
 steps:
+  - run:
+      name: install esbuild for bundling
+      command: yarn global add esbuild
   - cdk:
       cdk_command: deploy
       cdk_directory: << parameters.cdk_directory >>
