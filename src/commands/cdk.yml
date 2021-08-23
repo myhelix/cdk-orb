@@ -40,7 +40,7 @@ parameters:
   environment:
     default: ENVIRONMENT
     description: The environment to apply on.
-    type: env_var_name
+    type: string
   notify:
     default: false
     description: whether to notify slack
@@ -71,5 +71,17 @@ steps:
       condition: <<parameters.notify>>
       steps:
         - slack/notify:
-            color: '#22e33f'
-            message: 'Deployed to << parameters.environment >>.'
+            custom: |
+                {
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "fields": [
+                        {
+                          "type": "plain_text",
+                          "text": "Deployed to << parameters.environment >>.",
+                        }
+                      ]
+                    }
+                  ]
+                }
