@@ -37,9 +37,6 @@ steps:
   - run:
       name: yarn whoami
       command: yarn --whoami
-  - run:
-      name: Clean up credentials.
-      command: rm -f $HOME/.npmrc
   - persist_to_workspace:
       root: << parameters.attach_at >>
       paths:
