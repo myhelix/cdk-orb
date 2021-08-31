@@ -45,6 +45,10 @@ parameters:
     default: false
     description: whether to notify slack
     type: boolean
+  service:
+    default: PROJECT_NAME
+    description: Name of service being deployed.  Only necessary when notify is true
+    type: string
 
 steps:
   - attach_workspace:
@@ -79,7 +83,7 @@ steps:
                       "fields": [
                         {
                           "type": "plain_text",
-                          "text": "Deployed to << parameters.environment >>.",
+                          "text": "Deployed << parameters.servce >> to << parameters.environment >>.",
                           "emoji": true
                         }
                       ]
