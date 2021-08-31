@@ -80,6 +80,7 @@ steps:
                         {
                           "type": "plain_text",
                           "text": "Deployed to << parameters.environment >>.",
+                          "emoji": true
                         }
                       ]
                     }
