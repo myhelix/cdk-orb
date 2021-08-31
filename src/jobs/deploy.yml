@@ -39,8 +39,18 @@ parameters:
     default: false
     description: whether to notify slack
     type: boolean
+  setup_remote_docker:
+    default: false
+    description: enable docker
+    type: boolean
+
 
 steps:
+  - when:
+      condition: <<parameters.setup_remote_docker>>
+      steps:
+        - setup_remote_docker:
+            version: 19.03.13
   - run:
       name: install esbuild for bundling
       command: yarn global add esbuild
