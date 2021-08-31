@@ -72,29 +72,23 @@ steps:
       steps:
         - slack/notify:
             custom: |
-                {
-                  "blocks": [
-                    {
-                      "type": "section",
-                      "fields": [
-                        {
-                          "type": "plain_text",
-                          "text": "Deployed ${CIRCLE_PROJECT_REPONAME} to << parameters.environment >>.",
-                          "emoji": true
-                        }
-                      ]
+              {
+                "blocks": [
+                  {
+                    "type": "section",
+                    "text": {
+                      "type": "plain_text",
+                      "text": "Deployed ${CIRCLE_PROJECT_REPONAME} to << parameters.environment >>."
                     },
-                      "type": "actions",
-                      "elements": [
-                        {
-                          "type": "button",
-                          "text": {
-                            "type": "plain_text",
-                            "text": "View Job"
-                          },
-                          "url": "${CIRCLE_BUILD_URL}"
-                        }
-                      ]
+                    "accessory": {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "View Job",
+                        "emoji": true
+                      },
+                      "url": "${CIRCLE_BUILD_URL}"
                     }
-                  ]
-                }
+                  }
+                ]
+              }
