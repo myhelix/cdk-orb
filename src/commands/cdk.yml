@@ -45,10 +45,18 @@ parameters:
     default: false
     description: whether to notify slack
     type: boolean
+  install_go:
+    default: false
+    description: whether to install golang
+    type: boolean
 
 steps:
   - attach_workspace:
       at: << parameters.attach_at >>
+  - when:
+      condition: <<parameters.install_go>>
+      steps:
+        - go/install
   - aws-cli/setup
   - node/install-yarn
   - run:

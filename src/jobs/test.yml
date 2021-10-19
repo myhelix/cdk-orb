@@ -12,8 +12,16 @@ parameters:
     description: the parameters to pass the `yarn run test` command
     type: string
     default: ""
+  install_go:
+    default: false
+    description: whether to install golang
+    type: boolean
 
 steps:
+  - when:
+      condition: <<parameters.install_go>>
+      steps:
+        - go/install
   - node/install-yarn
   - yarn:
       yarn_command: run
