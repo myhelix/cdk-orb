@@ -16,12 +16,17 @@ parameters:
     default: false
     description: whether to install golang
     type: boolean
+  go_version:
+    description: the version of go to install
+    type: string
+    default: "1.15.10"
 
 steps:
   - when:
       condition: <<parameters.install_go>>
       steps:
-        - go/install
+        - go/install:
+            version: <<parameters.go_version>>
   - node/install-yarn
   - yarn:
       yarn_command: run

@@ -47,6 +47,10 @@ parameters:
     default: false
     description: whether to install golang
     type: boolean
+  go_version:
+    description: the version of go to install
+    type: string
+    default: "1.15.10"
 
 steps:
   - when:
@@ -68,3 +72,4 @@ steps:
       environment: << parameters.environment >>
       notify: << parameters.notify >>
       install_go: << parameters.install_go >>
+      go_version: << parameters.go_version >>
