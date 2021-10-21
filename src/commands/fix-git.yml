@@ -5,5 +5,4 @@ steps:
   - run:
       name: Update git config to use ssh
       command: |
-        ORG_NAME=$(echo $CIRCLE_PROJECT_REPONAME | cut -d / -f 1)
-        git config --global url."git@github.com:$ORG_NAME".insteadOf https://github.com/$ORG_NAME
+        git config --global --add url."git@github.com:".insteadOf "https://github.com/"
