@@ -5,4 +5,5 @@ steps:
   - run:
       name: Update git config to use ssh
       command: |
+        ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
         git config --global --add url."git@github.com:".insteadOf "https://github.com/"

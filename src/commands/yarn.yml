@@ -32,13 +32,11 @@ steps:
       command: yarn --version
   - run:
       name: yarn list
-      command: yarn list && cat ~/.gitconfig
-  - fix-git
+      command: yarn list
   - run:
       name: yarn
       no_output_timeout: 30m
       command: |
-        cat ~/.gitconfig
         cd << parameters.yarn_directory >>
         yarn << parameters.yarn_command >> << parameters.yarn_params >>
   - when:
