@@ -1,0 +1,11 @@
+description: >
+  update the global git config to use an ssh uri instead of the git url
+
+steps:
+  - run:
+      name: Update git config to use ssh
+      command: |
+        mkdir -p ~/.ssh
+        touch ~/.ssh/known_hosts
+        ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+        git config --global --add url."git@github.com:".insteadOf "https://github.com/"

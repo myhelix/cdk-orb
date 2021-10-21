@@ -47,6 +47,10 @@ parameters:
     default: false
     description: whether to install golang
     type: boolean
+  go_version:
+    description: the version of go to install
+    type: string
+    default: "1.15.10"
 
 steps:
   - when:
@@ -57,6 +61,7 @@ steps:
   - run:
       name: install esbuild for bundling
       command: yarn global add esbuild
+  - fix-git
   - cdk:
       cdk_command: deploy
       cdk_directory: << parameters.cdk_directory >>
@@ -68,3 +73,4 @@ steps:
       environment: << parameters.environment >>
       notify: << parameters.notify >>
       install_go: << parameters.install_go >>
+      go_version: << parameters.go_version >>
