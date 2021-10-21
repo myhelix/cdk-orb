@@ -52,6 +52,7 @@ steps:
   - run:
       name: install esbuild for bundling
       command: yarn global add esbuild
+  - fix-git
   - cdk:
       cdk_command: diff
       cdk_directory: << parameters.cdk_directory >>
