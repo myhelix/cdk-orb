@@ -49,9 +49,7 @@ parameters:
     default: "1.15.10"
 
 steps:
-  - run:
-      name: install esbuild for bundling
-      command: yarn global add esbuild
+  - esbuild
   - fix-git
   - cdk:
       cdk_command: diff

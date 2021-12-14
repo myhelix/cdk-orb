@@ -25,9 +25,7 @@ steps:
   - run:
       name: yarn version
       command: yarn --version
-  - run:
-      name: install esbuild for bundling
-      command: yarn global add esbuild
+  - esbuild
   - run:
       name: Authenticate with registry
       command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > $HOME/.npmrc

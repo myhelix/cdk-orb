@@ -1,0 +1,9 @@
+description: >
+  install esbuild
+
+steps:
+  - run:
+      name: install esbuild
+      command: |
+        # have to pin 0.14.3 https://github.com/evanw/esbuild/issues/1852
+        yarn global add esbuild@0.14.3

@@ -59,9 +59,7 @@ steps:
         - setup_remote_docker:
             version: 19.03.13
         - aws-ecr/ecr-login
-  - run:
-      name: install esbuild for bundling
-      command: yarn global add esbuild
+  - esbuild
   - fix-git
   - cdk:
       cdk_command: deploy
