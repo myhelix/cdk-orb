@@ -1,0 +1,8 @@
+description: >
+  install esbuild
+
+steps:
+  - run:
+      name: install esbuild
+      command: |
+        yarn global add esbuild@0

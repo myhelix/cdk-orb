@@ -15,9 +15,7 @@ parameters:
 
 steps:
   - node/install-yarn
-  - run:
-      name: install esbuild for bundling
-      command: yarn global add esbuild
+  - esbuild
   - yarn:
       yarn_command: run
       yarn_params: build << parameters.yarn_params >>
