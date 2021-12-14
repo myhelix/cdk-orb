@@ -5,4 +5,4 @@ steps:
   - run:
       name: install esbuild
       command: |
-        yarn global add esbuild@0
+        yarn global add esbuild@1.14.3
