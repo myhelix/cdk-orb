@@ -63,7 +63,8 @@ steps:
         - go/install:
             version: <<parameters.go_version>>
   - aws-cli/setup
-  - node/install-yarn
+  - node/install-yarn:
+      version: "1.22.17"
   - run:
       name: yarn version
       command: yarn --version

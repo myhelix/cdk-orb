@@ -27,8 +27,6 @@ steps:
       steps:
         - go/install:
             version: <<parameters.go_version>>
-  # - node/install-yarn:
-  #     version: "1.22.17"
   - fix-git
   - yarn:
       yarn_command: run

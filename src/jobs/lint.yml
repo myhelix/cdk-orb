@@ -14,8 +14,6 @@ parameters:
     default: ""
 
 steps:
-  # - node/install-yarn:
-  #     version: "1.22.17"
   - yarn:
       yarn_command: run
       yarn_params: lint << parameters.yarn_params >>
