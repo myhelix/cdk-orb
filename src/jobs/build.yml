@@ -13,6 +13,9 @@ parameters:
     type: string
     default: ""
 
+environment:
+  NODE_PARAM_YARN_VERSION: "1.22.17"
+
 steps:
   - node/install-yarn:
       version: "1.22.17"
