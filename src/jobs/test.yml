@@ -21,17 +21,14 @@ parameters:
     type: string
     default: "1.15.10"
 
-environment:
-  NODE_PARAM_YARN_VERSION: "1.22.17"
-
 steps:
   - when:
       condition: <<parameters.install_go>>
       steps:
         - go/install:
             version: <<parameters.go_version>>
-  - node/install-yarn:
-      version: "1.22.17"
+  # - node/install-yarn:
+  #     version: "1.22.17"
   - fix-git
   - yarn:
       yarn_command: run
