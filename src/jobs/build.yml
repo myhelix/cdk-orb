@@ -14,7 +14,8 @@ parameters:
     default: ""
 
 steps:
-  - node/install-yarn
+  - node/install-yarn:
+      version: "1.22.17"
   - esbuild
   - yarn:
       yarn_command: run
