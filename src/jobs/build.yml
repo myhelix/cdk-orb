@@ -14,7 +14,6 @@ parameters:
     default: ""
 
 steps:
-  - node/install-yarn
   - esbuild
   - yarn:
       yarn_command: run
