@@ -24,7 +24,7 @@ steps:
   # - node/install-yarn
   - run:
       name: yarn version
-      command: yarn --version
+      command: cd << parameters.cdk_directory >> && yarn --version
   - esbuild
   - run:
       name: Authenticate with registry
@@ -34,7 +34,7 @@ steps:
       app-dir: << parameters.cdk_directory >>
   - run:
       name: yarn whoami
-      command: yarn --whoami
+      command: cd << parameters.cdk_directory >> && yarn --whoami
   - run:
       name: Clean up credentials.
       command: rm -f $HOME/.npmrc
