@@ -41,11 +41,11 @@ steps:
   - when:
       condition:
         not:
-          equal: 
+          equal:
             - '.'
             - << parameters.attach_at >>
       steps:
-        - attach_workspace: 
+        - attach_workspace:
             at: << parameters.attach_at >>
         - run:
             name: Copy CWD to Workspace
