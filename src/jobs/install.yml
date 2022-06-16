@@ -25,6 +25,9 @@ steps:
   # Yarn is already installed
   # - node/install-yarn
   - run:
+      name: is alpha working?
+      command: echo yes
+  - run:
       name: yarn version
       command: yarn --version
   - esbuild

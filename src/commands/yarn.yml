@@ -33,8 +33,7 @@ steps:
   - run:
       name: yarn list
       working_directory: << parameters.attach_at >>
-      command: |
-        yarn list
+      command: yarn list
   - run:
       name: yarn
       working_directory: << parameters.attach_at >>
