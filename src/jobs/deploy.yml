@@ -39,10 +39,6 @@ parameters:
     default: ENVIRONMENT
     description: The environment to apply on.
     type: env_var_name
-  env_var_steps:
-    description: Steps to configure environment variables
-    default: []
-    type: steps
   notify:
     default: false
     description: whether to notify slack
@@ -79,7 +75,6 @@ steps:
       aws_account_id: << parameters.aws_account_id >>
       aws_secret_access_key: << parameters.aws_secret_access_key >>
       environment: << parameters.environment >>
-      env_var_steps: << parameters.env_var_steps >>
       notify: << parameters.notify >>
       install_go: << parameters.install_go >>
       go_version: << parameters.go_version >>
