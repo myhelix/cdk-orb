@@ -19,11 +19,9 @@ parameters:
     type: env_var_name
 
 steps:
-  - attach_workspace:
-      at: << parameters.attach_at >>
-
   - checkout
-  
+  # - attach_workspace:
+  #     at: << parameters.attach_at >>
   # Yarn is already installed
   # - node/install-yarn
   - run:
