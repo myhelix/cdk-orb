@@ -32,7 +32,10 @@ steps:
       command: yarn --version
   - run:
       name: yarn list
-      command: yarn list
+      command: |
+        pwd
+        ls
+        yarn list
   - run:
       name: yarn
       no_output_timeout: 30m
