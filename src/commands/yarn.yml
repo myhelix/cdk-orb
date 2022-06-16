@@ -32,12 +32,12 @@ steps:
       command: yarn --version
   - run:
       name: yarn list
+      working_directory: << parameters.attach_at >>
       command: |
-        pwd
-        ls
         yarn list
   - run:
       name: yarn
+      working_directory: << parameters.attach_at >>
       no_output_timeout: 30m
       command: |
         cd << parameters.yarn_directory >>
