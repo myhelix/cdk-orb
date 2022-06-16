@@ -20,6 +20,8 @@ parameters:
 
 steps:
   - checkout
+  - attach_workspace:
+      at: << parameters.attach_at >>
   # Yarn is already installed
   # - node/install-yarn
   - run:
@@ -31,7 +33,7 @@ steps:
       command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > $HOME/.npmrc
   - node/install-packages:
       pkg-manager: yarn
-      app-dir: << parameters.cdk_directory >>
+      app-dir: << paramteres.attach_at >>/<< parameters.cdk_directory >>
   - run:
       name: yarn whoami
       command: yarn --whoami
