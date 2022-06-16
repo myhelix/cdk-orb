@@ -20,6 +20,8 @@ parameters:
 
 steps:
   - checkout
+  - attach_workspace:
+      at: << parameters.attach_at >>
   # Yarn is already installed
   # - node/install-yarn
   - run:
