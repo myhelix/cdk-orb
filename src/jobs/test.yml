@@ -4,6 +4,10 @@ description: >
 executor: default
 
 parameters:
+  attach_at:
+    description: where should we attach the workspace
+    default: "."
+    type: string
   cdk_directory:
     description: the directory where your cdk app resides
     type: string
@@ -29,6 +33,7 @@ steps:
             version: <<parameters.go_version>>
   - fix-git
   - yarn:
+      attach_at: << parameters.attach_at >>
       yarn_command: run
       yarn_params: test << parameters.yarn_params >>
       yarn_directory: << parameters.cdk_directory >>
