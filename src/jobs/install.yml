@@ -38,6 +38,16 @@ steps:
   - run:
       name: Clean up credentials.
       command: rm -f $HOME/.npmrc
+  - when:
+      condition:
+        not:
+          equal: ['.', << parameters.attach_at >>]
+      steps:
+        - attach_workspace:
+            at: << parameters.attach_at >>
+        - run:
+            name: Copy CWD to Workspace
+            command: cp -nr * << parameters.attach_at >>
   - persist_to_workspace:
       root: << parameters.attach_at >>
       paths:

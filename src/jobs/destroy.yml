@@ -4,6 +4,10 @@ description: >
 executor: default
 
 parameters:
+  attach_at:
+    description: where should we attach the workspace
+    default: "."
+    type: string
   cdk_directory:
     description: the directory where your cdk app resides
     type: string
@@ -42,6 +46,7 @@ parameters:
 
 steps:
   - cdk:
+      attach_at: << parameters.attach_at >>
       cdk_command: destroy
       cdk_directory: << parameters.cdk_directory >>
       cdk_params: << parameters.cdk_params >>

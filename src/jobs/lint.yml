@@ -4,6 +4,10 @@ description: >
 executor: default
 
 parameters:
+  attach_at:
+    description: where should we attach the workspace
+    default: "."
+    type: string
   cdk_directory:
     description: the directory where your cdk app resides
     type: string
@@ -15,6 +19,7 @@ parameters:
 
 steps:
   - yarn:
+      attach_at: << parameters.yarn_params >>
       yarn_command: run
       yarn_params: lint << parameters.yarn_params >>
       yarn_directory: << parameters.cdk_directory >>
