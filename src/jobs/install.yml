@@ -31,7 +31,7 @@ steps:
       command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > $HOME/.npmrc
   - node/install-packages:
       pkg-manager: yarn
-      app-dir: "<< parameters.attach_at >>/<< parameters.cdk_directory >>"
+      app-dir: << parameters.cdk_directory >>
   - run:
       name: yarn whoami
       command: yarn --whoami
@@ -41,16 +41,13 @@ steps:
   - when:
       condition:
         not:
-          equal:
-            - '.'
-            - << parameters.attach_at >>
+          equal: ['.', << parameters.attach_at >>]
       steps:
         - attach_workspace:
             at: << parameters.attach_at >>
         - run:
             name: Copy CWD to Workspace
-            command: |
-              cp -nr * << parameters.attach_at >>
+            command: cp -nr * << parameters.attach_at >>
   - persist_to_workspace:
       root: << parameters.attach_at >>
       paths:
