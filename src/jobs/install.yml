@@ -25,7 +25,7 @@ steps:
   - run:
       name: yarn version
       command: yarn --version
-      working_directory: << parameters.cdk_directory >> 
+      working_directory: << parameters.cdk_directory >>
   - esbuild
   - run:
       name: Authenticate with registry
@@ -36,7 +36,7 @@ steps:
   - run:
       name: yarn whoami
       command: yarn --whoami
-      working_directory: << parameters.cdk_directory >> 
+      working_directory: << parameters.cdk_directory >>
   - run:
       name: Clean up credentials.
       command: rm -f $HOME/.npmrc
