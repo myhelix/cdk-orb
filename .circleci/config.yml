@@ -21,7 +21,7 @@ parameters:
       This value is automatically adjusted by the "trigger-integration-tests-workflow" job to correspond with the specific version created by the commit and should not be edited.
       A "dev:alpha" version must exist for the initial pipeline run.
     type: string
-    default: "dev:alpha"
+    default: "dev:669814d"
 
 jobs:
   # Define one or more jobs which will utilize your orb's commands and parameters to validate your changes.
