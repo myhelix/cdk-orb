@@ -1,7 +1,9 @@
 description: >
   cdk diff
 
-executor: default
+executor:
+  default:
+    tag: 18.13.0
 
 parameters:
   attach_at:
