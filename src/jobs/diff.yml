@@ -1,7 +1,9 @@
 description: >
   cdk diff
 
-executor: default
+executor:
+  name: default
+  tag: << parameters.node_version >>
 
 parameters:
   attach_at:
@@ -51,6 +53,10 @@ parameters:
     description: the version of go to install
     type: string
     default: "1.15.10"
+  node_version:
+    description: the version of node to use in executor
+    type: string
+    default: "18.13.0"
 
 steps:
   - esbuild
