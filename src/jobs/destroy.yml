@@ -1,7 +1,9 @@
 description: >
   cdk destroy
 
-executor: default
+executor:
+  name: default
+  tag: << parameters.node_version >>
 
 parameters:
   attach_at:
@@ -43,6 +45,10 @@ parameters:
     default: false
     description: whether to notify slack
     type: boolean
+  node_version:
+    description: the version of node to use in executor
+    type: string
+    default: "18.13.0"
 
 steps:
   - cdk:

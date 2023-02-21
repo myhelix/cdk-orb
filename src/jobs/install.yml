@@ -1,7 +1,9 @@
 description: >
   yarn install
 
-executor: default
+executor:
+  name: default
+  tag: << parameters.node_version >>
 
 parameters:
   attach_at:
@@ -17,6 +19,10 @@ parameters:
     description: |
       The token used to auth with npmjs
     type: env_var_name
+  node_version:
+    description: the version of node to use in executor
+    type: string
+    default: "18.13.0"
 
 steps:
   - checkout
