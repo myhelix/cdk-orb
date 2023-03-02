@@ -62,10 +62,10 @@ steps:
       steps:
         - go/install:
             version: <<parameters.go_version>>
-        - aws-cli/setup:
-            profile-name: "default"
-            role-arn: "arn:aws:iam::${AWS_ACCOUNT_ID}:role/${ASSUME_AWS_PROFILE}"
-            role-session-name: ${CIRCLE_WORKFLOW_ID}
+  - aws-cli/setup:
+      profile-name: "default"
+      role-arn: "arn:aws:iam::${AWS_ACCOUNT_ID}:role/${ASSUME_AWS_PROFILE}"
+      role-session-name: ${CIRCLE_WORKFLOW_ID}
   - node/install-yarn
   - run:
       name: yarn version
