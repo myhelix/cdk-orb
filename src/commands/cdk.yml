@@ -63,7 +63,6 @@ steps:
         - go/install:
             version: <<parameters.go_version>>
   - assume_oidc_role
-  - aws-cli/setup
   - node/install-yarn
   - run:
       name: yarn version
