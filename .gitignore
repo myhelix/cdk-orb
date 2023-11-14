@@ -3,3 +3,4 @@ orb.yml
 
 node_modules
 yarn.lock
+.idea/*

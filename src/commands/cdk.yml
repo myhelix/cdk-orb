@@ -63,7 +63,8 @@ steps:
         - go/install:
             version: <<parameters.go_version>>
   - assume_oidc_role
-  - node/install-yarn
+  - node/install-yarn:
+      version: 1.22.19
   - run:
       name: yarn version
       command: yarn --version
