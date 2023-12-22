@@ -27,7 +27,7 @@ steps:
   - attach_workspace:
       at: << parameters.attach_at >>
   - node/install-yarn:
-      version: 1.22.19
+      version: 3.7.0
   - run:
       name: yarn version
       command: yarn --version
