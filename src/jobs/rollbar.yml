@@ -21,7 +21,7 @@ parameters:
   node_version:
     description: the version of node to use in executor
     type: string
-    default: "18.13.0" 
+    default: "18.13.0"
 
   steps:
     - checkout
@@ -34,8 +34,7 @@ parameters:
         command: echo $ROLLBAR_ACCESS_TOKEN
     - deploy/notify_deploy:
         environment: << parameters.environment >>
-  
-  - notify_deploy:
-      attach_at: << parameters.attach_at >>
-      environment: << parameters.environment >>
-      node_version: << parameters.node_version >>
+  # - notify_deploy:
+  #     attach_at: << parameters.attach_at >>
+  #     environment: << parameters.environment >>
+  #     node_version: << parameters.node_version >>
