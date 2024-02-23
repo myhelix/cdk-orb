@@ -84,19 +84,4 @@ steps:
       notify: << parameters.notify >>
       install_go: << parameters.install_go >>
       go_version: << parameters.go_version >>
-      post-steps:
-        - run:
-            name: check Rollbartoken in config/env.yaml
-            command: |
-              if [ -f /home/circleci/project/config/env.yaml ] && grep -q "rollbarToken" /home/circleci/project/config/env.yaml; then
-                echo 'env.yml file and Rollbar token exists'
-              else
-                echo 'Rollbar token does not exist in env.yaml file. Please add it and try again.'
-                exit 1
-              fi
-        - run:
-            name: get rollbar token
-            command: echo 'export ROLLBAR_ACCESS_TOKEN=$(yq -r ".defaults.rollbarToken" /home/circleci/project/config/env.yaml)' >> $BASH_ENV
-        - deploy/notify_deploy:
-            environment: << parameters.environment >>
 
