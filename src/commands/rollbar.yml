@@ -1,9 +1,5 @@
 description: >
-  cdk rollbar
-
-executor:
-  name: default
-  tag: << parameters.node_version >>
+  deploy notify_deploy
 
 parameters:
   attach_at:
