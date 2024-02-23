@@ -1,5 +1,5 @@
 description: >
-  notify rollbar
+  cdk rollbar
 
 executor:
   name: default
@@ -23,7 +23,6 @@ parameters:
     type: string
     default: "18.13.0" 
 
-
   steps:
       - checkout
       - run: ls -lah /home/circleci/project
@@ -40,4 +39,3 @@ parameters:
       attach_at: << parameters.attach_at >>
       environment: << parameters.environment >>
       node_version: << parameters.node_version >>
-
