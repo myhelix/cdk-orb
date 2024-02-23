@@ -19,18 +19,18 @@ parameters:
     type: string
     default: "18.13.0"
 
-  steps:
-    - checkout
-    - run: ls -lah /home/circleci/project
-    - run:
-        name: get rollbar token
-        command: echo 'export ROLLBAR_ACCESS_TOKEN=$(yq -r ".defaults.rollbarToken" $CIRCLE_WORKING_DIRECTORY/config/env.yaml)' >> $BASH_ENV
-    - run:
-        name: echo rollbar token
-        command: echo $ROLLBAR_ACCESS_TOKEN
-    - deploy/notify_deploy:
-        environment: << parameters.environment >>
-  # - notify_deploy:
-  #     attach_at: << parameters.attach_at >>
-  #     environment: << parameters.environment >>
-  #     node_version: << parameters.node_version >>
+steps:
+  - checkout
+  - run: ls -lah /home/circleci/project
+  - run:
+      name: get rollbar token
+      command: echo 'export ROLLBAR_ACCESS_TOKEN=$(yq -r ".defaults.rollbarToken" $CIRCLE_WORKING_DIRECTORY/config/env.yaml)' >> $BASH_ENV
+  - run:
+      name: echo rollbar token
+      command: echo $ROLLBAR_ACCESS_TOKEN
+  - deploy/notify_deploy:
+      environment: << parameters.environment >>
+# - notify_deploy:
+#     attach_at: << parameters.attach_at >>
+#     environment: << parameters.environment >>
+#     node_version: << parameters.node_version >>
