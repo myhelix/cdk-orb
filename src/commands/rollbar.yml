@@ -1,5 +1,5 @@
 description: >
-  deploy notify_deploy
+  rollbar notify_deploy
 
 parameters:
   attach_at:
@@ -10,10 +10,6 @@ parameters:
     default: ENVIRONMENT
     description: The environment to apply on.
     type: env_var_name
-  setup_remote_docker:
-    default: false
-    description: enable docker
-    type: boolean
   node_version:
     description: the version of node to use in executor
     type: string
@@ -21,13 +17,14 @@ parameters:
 
 steps:
   - checkout
-  - run: ls -lah /home/circleci/project
+  - run:  
+      name: "Fix CIRCLE_WORKING_DIRECTORY"  
+      command: echo 'CIRCLE_WORKING_DIRECTORY="${CIRCLE_WORKING_DIRECTORY/#\~/$HOME}"' >> $BASH_ENV
   - run:
       name: get rollbar token
-      command: echo 'export ROLLBAR_ACCESS_TOKEN=$(yq -r ".defaults.rollbarToken" $CIRCLE_WORKING_DIRECTORY/config/env.yaml)' >> $BASH_ENV
-  - run:
-      name: echo rollbar token
-      command: echo $ROLLBAR_ACCESS_TOKEN
+      command: |
+        echo $CIRCLE_WORKING_DIRECTORY
+        echo 'export ROLLBAR_ACCESS_TOKEN=$(yq -r ".defaults.rollbarToken" $CIRCLE_WORKING_DIRECTORY/config/env.yaml)' >> "$BASH_ENV"
   - deploy/notify_deploy:
       environment: << parameters.environment >>
 # - notify_deploy:
