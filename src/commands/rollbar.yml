@@ -1,0 +1,33 @@
+description: >
+  rollbar notify_deploy
+
+parameters:
+  attach_at:
+    description: where should we attach the workspace
+    default: "."
+    type: string
+  environment:
+    default: ENVIRONMENT
+    description: The environment to apply on.
+    type: env_var_name
+  node_version:
+    description: the version of node to use in executor
+    type: string
+    default: "18.13.0"
+
+steps:
+  - checkout
+  - run:
+      name: "Fix CIRCLE_WORKING_DIRECTORY"
+      command: echo 'CIRCLE_WORKING_DIRECTORY="${CIRCLE_WORKING_DIRECTORY/#\~/$HOME}"' >> $BASH_ENV
+  - run:
+      name: get rollbar token
+      command: |
+        echo $CIRCLE_WORKING_DIRECTORY
+        echo 'export ROLLBAR_ACCESS_TOKEN=$(yq -r ".defaults.rollbarToken" $CIRCLE_WORKING_DIRECTORY/config/env.yaml)' >> "$BASH_ENV"
+  - deploy/notify_deploy:
+      environment: << parameters.environment >>
+# - notify_deploy:
+#     attach_at: << parameters.attach_at >>
+#     environment: << parameters.environment >>
+#     node_version: << parameters.node_version >>
