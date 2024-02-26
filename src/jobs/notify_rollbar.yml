@@ -13,7 +13,7 @@ parameters:
   environment:
     default: ENVIRONMENT
     description: The environment to apply on.
-    type: env_var_name
+    type: string
   node_version:
     description: the version of node to use in executor
     type: string
