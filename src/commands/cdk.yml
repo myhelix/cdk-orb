@@ -89,4 +89,4 @@ steps:
         - slack/notify:
             color: '#22e33f'
             message: 'Deployed to << parameters.environment >>.'
-        - rollbar
+        - rollbar #notify
