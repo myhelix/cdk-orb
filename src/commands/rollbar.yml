@@ -25,8 +25,14 @@ steps:
       command: |
         echo $CIRCLE_WORKING_DIRECTORY
         echo 'export ROLLBAR_ACCESS_TOKEN=$(yq -r ".defaults.rollbarToken" $CIRCLE_WORKING_DIRECTORY/config/env.yaml)' >> "$BASH_ENV"
-  - deploy/notify_deploy:
-      environment: << parameters.environment >>
+  - run:
+      name: Rollbar - Notify Deploy Succeeded
+      command: |
+        curl https://api.rollbar.com/api/1/deploy/ \
+          --form access_token=$ROLLBAR_ACCESS_TOKEN \
+          --form environment=$<< parameters.environment >> \
+          --form revision=$CIRCLE_SHA1 \
+          --form local_username=$CIRCLE_USERNAME
 # - notify_deploy:
 #     attach_at: << parameters.attach_at >>
 #     environment: << parameters.environment >>
