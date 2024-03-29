@@ -31,3 +31,4 @@ steps:
       yarn_directory: << parameters.cdk_directory >>
       attach_at: << parameters.attach_at >>
       persist: true
+  - compass/notify_deployment
