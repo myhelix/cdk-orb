@@ -20,16 +20,6 @@ steps:
   - run:
       name: "Fix CIRCLE_WORKING_DIRECTORY"
       command: echo 'CIRCLE_WORKING_DIRECTORY="${CIRCLE_WORKING_DIRECTORY/#\~/$HOME}"' >> $BASH_ENV
-  # - run:
-  #     name: Search for Rollbar Token (grep)
-  #     command: |
-  #       ROLLBAR_TOKEN_FILE=$(grep -rnw "$CIRCLE_WORKING_DIRECTORY" -e 'ROLLBAR_ACCESS_TOKEN' | head -n 1 | cut -d ':' -f 1)
-  #       if [[ -z "$ROLLBAR_TOKEN_FILE" ]]; then
-  #         echo "ROLLBAR_ACCESS_TOKEN not found using grep";
-  #       else
-  #         echo "Found potential ROLLBAR_ACCESS_TOKEN file: $ROLLBAR_TOKEN_FILE";
-  #         # Extract token using yq (assuming valid YAML format)
-  #         export ROLLBAR_ACCESS_TOKEN=$(yq -r '.ROLLBAR_ACCESS_TOKEN' "$ROLLBAR_TOKEN_FILE")
   - run:
       name: get rollbar token
       command: |
