@@ -43,7 +43,7 @@ parameters:
     type: env_var_name
   notify:
     default: true
-    description: whether to notify slack
+    description: whether to notify slack and rollbar
     type: boolean
   install_go:
     default: false
