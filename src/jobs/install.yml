@@ -58,4 +58,3 @@ steps:
       root: << parameters.attach_at >>
       paths:
         - .
-  - rollbar

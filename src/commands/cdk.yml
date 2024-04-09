@@ -42,7 +42,7 @@ parameters:
     description: The environment to apply on.
     type: env_var_name
   notify:
-    default: false
+    default: true
     description: whether to notify slack
     type: boolean
   install_go:

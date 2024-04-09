@@ -42,8 +42,8 @@ parameters:
     description: The environment to apply on.
     type: env_var_name
   notify:
-    default: false
-    description: whether to notify slack
+    default: true
+    description: whether to notify slack and rollbar
     type: boolean
   setup_remote_docker:
     default: false
