@@ -32,7 +32,7 @@ steps:
       name: get rollbar token
       command: |
         echo $CIRCLE_WORKING_DIRECTORY
-        echo 'export ROLLBAR_ACCESS_TOKEN=$(yq -r "<< parameters.yaml_file_token_query >>" << parameters.yaml_file_path >>)' >> "$BASH_ENV"
+        echo "export ROLLBAR_ACCESS_TOKEN=$(yq -r '<< parameters.yaml_file_token_query >>' << parameters.yaml_file_path >>)" >> "$BASH_ENV"
   - run:
       name: Rollbar - Notify Deploy Succeeded
       command: |
