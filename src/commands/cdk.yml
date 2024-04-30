@@ -90,4 +90,5 @@ steps:
             color: '#22e33f'
             message: 'Deployed to << parameters.environment >>.'
         - rollbar #notify
-        - compass/notify_deployment
+        - compass/notify_deployment:
+            environment: << parameters.environment >>
