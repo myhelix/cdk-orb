@@ -1,7 +1,6 @@
 description: >
   This is a sample executor using Docker and Node.
-docker:
-  - image: 'cimg/node:<<parameters.tag>>'
+machine: true
 parameters:
   tag:
     default: 18.13.0
