@@ -13,13 +13,13 @@ parameters:
         description: |
             Indicates the category of target environment
             as defined by Atlassian
-        enum:
-            - production
-            - staging
-            - testing
-            - development
-            - unmapped
-        type: enum
+        # enum:
+        #     - production
+        #     - staging
+        #     - testing
+        #     - development
+        #     - unmapped
+        type: env_var_name
     state_path:
         default: ./circleci-orb-compass.status
         description: |
