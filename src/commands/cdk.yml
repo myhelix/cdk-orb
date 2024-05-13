@@ -96,6 +96,6 @@ steps:
         - rollbar #notify
         # - compass/notify_deployment
         - compass:
-            environment_type: $<<parameters.environment_type>>
+            environment_type: $<< parameters.environment_type >>
             # environment: << parameters.environment >>
             # context: compass-integration-myhelix
