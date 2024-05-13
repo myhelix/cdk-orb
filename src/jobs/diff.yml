@@ -44,7 +44,7 @@ parameters:
   environment_type:
     default: ENVIRONMENT_TYPE
     description: The environment to apply on.
-    type: string
+    type: env_var_name
   notify:
     default: false
     description: whether to notify slack
