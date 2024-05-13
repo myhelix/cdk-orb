@@ -14,5 +14,6 @@ orbs:
   go: circleci/go@1.7.0
   deploy: rollbar/deploy@1.0.1
   compass: atlassian-labs/compass@0.1.3
+  jq: circleci/jq@2.2
 
 
