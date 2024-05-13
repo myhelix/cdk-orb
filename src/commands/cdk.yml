@@ -90,6 +90,6 @@ steps:
             color: '#22e33f'
             message: 'Deployed to << parameters.environment >>.'
         - rollbar #notify
-        - compass/notify_deployment:
-            environment: << parameters.environment >>
+        - compass
+            # environment: << parameters.environment >>
             # context: compass-integration-myhelix
