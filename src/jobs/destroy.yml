@@ -49,6 +49,10 @@ parameters:
     description: the version of node to use in executor
     type: string
     default: "18.13.0"
+  environment_type:
+    default: ENVIRONMENT_TYPE
+    description: The environment to apply on.
+    type: string
 
 steps:
   - cdk:
