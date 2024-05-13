@@ -95,6 +95,6 @@ steps:
             message: 'Deployed to << parameters.environment >>.'
         - rollbar #notify
         - compass:
-            ENVIRONMENT_TYPE: $<<parameters.environment_type>>
+            environment_type: $<<parameters.environment_type>>
             # environment: << parameters.environment >>
             # context: compass-integration-myhelix
