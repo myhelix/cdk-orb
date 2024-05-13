@@ -92,4 +92,4 @@ steps:
         - rollbar #notify
         - compass/notify_deployment:
             environment: << parameters.environment >>
-            context: compass-integration-myhelix
+            # context: compass-integration-myhelix
