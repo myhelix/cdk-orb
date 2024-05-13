@@ -137,7 +137,7 @@ steps:
           run
           rm -f ${STATE_PATH}
       environment:
-          ENVIRONMENT_TYPE: <<parameters.environment_type>>
+          ENVIRONMENT_TYPE: $<<parameters.environment_type>>
           STATE_PATH: <<parameters.state_path>>
           TOKEN_NAME: <<parameters.token_name>>
       name: Update status in Atlassian Compass
