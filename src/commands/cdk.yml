@@ -87,15 +87,15 @@ steps:
         export AWS_SESSION_TOKEN=$(echo $assume_creds | jq -r .Credentials.SessionToken)
         cd << parameters.cdk_directory >>
         npx cdk << parameters.cdk_command >> << parameters.cdk_stack >> << parameters.cdk_params >>
+  - rollbar #notify
   - when:
       condition: <<parameters.notify>>
       steps:
         - slack/notify:
             color: '#22e33f'
             message: 'Deployed to << parameters.environment >>.'
-        - rollbar #notify
-        # - compass/notify_deployment
-        - compass:
-            environment_type: << parameters.environment_type >>
-            # environment: << parameters.environment >>
-            # context: compass-integration-myhelix
+        # # - compass/notify_deployment
+        # - compass:
+        #     environment_type: << parameters.environment_type >>
+        #     # environment: << parameters.environment >>
+        #     # context: compass-integration-myhelix
