@@ -89,6 +89,8 @@ steps:
         npx cdk << parameters.cdk_command >> << parameters.cdk_stack >> << parameters.cdk_params >>
   - compass/notify_deployment:
     environment_type: << parameters.environment >>
+
+    
   # - rollbar #notify
   # - when:
   #     condition: <<parameters.notify>>
