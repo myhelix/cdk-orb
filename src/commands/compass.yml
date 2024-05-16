@@ -9,16 +9,12 @@ parameters:
             Default is the CircleCI Job Name.
         type: string
     environment_type:
-        default: development
+        # NOTE: change this to ENVIRONMENT_TYPE if you want to use the $ENVIRONMENT_TYPE environment variable instead.
+        default: ENVIRONMENT
         description: |
-            Indicates the category of target environment
+            The name of the environment variable that
+            contains the category of target environment
             as defined by Atlassian
-        # enum:
-        #     - production
-        #     - staging
-        #     - testing
-        #     - development
-        #     - unmapped
         type: env_var_name
     state_path:
         default: ./circleci-orb-compass.status
@@ -78,9 +74,9 @@ steps:
             echo {} | jq \
             --arg time_str "$(date +%s)" \
             --arg lastUpdated "${iso_time}" \
-            --arg category "${ENVIRONMENT_TYPE^^}" \
+            --arg category "${<<parameters.environment_type>>^^}" \
             --arg environmentName "${ENVIRONMENT_NAME}" \
-            --arg environmentType "${ENVIRONMENT_TYPE}" \
+            --arg environmentType "${<<parameters.environment_type>>}" \
             --arg workflowId "${CIRCLE_WORKFLOW_ID}" \
             --arg jobId "${CIRCLE_BUILD_NUM}" \
             --arg status "${COMPASS_BUILD_STATUS}" \
@@ -137,7 +133,6 @@ steps:
           run
           rm -f ${STATE_PATH}
       environment:
-          ENVIRONMENT_TYPE: <<parameters.environment_type>>
           STATE_PATH: <<parameters.state_path>>
           TOKEN_NAME: <<parameters.token_name>>
       name: Update status in Atlassian Compass
