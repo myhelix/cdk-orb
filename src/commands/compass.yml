@@ -9,8 +9,8 @@ parameters:
             Default is the CircleCI Job Name.
         type: string
     environment_type:
-        # NOTE: change this to ENVIRONMENT if you want to use the $ENVIRONMENT environment variable instead.
-        default: ENVIRONMENT_TYPE
+        # NOTE: change this to ENVIRONMENT_TYPE if you want to use the $ENVIRONMENT_TYPE environment variable instead.
+        default: ENVIRONMENT
         description: |
             The name of the environment variable that
             contains the category of target environment
