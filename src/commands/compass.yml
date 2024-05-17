@@ -3,11 +3,12 @@ description: |
 
 parameters:
     environment:
-        default: ${CIRCLE_JOB}
+        default: CIRCLE_JOB
         description: |
-            For deployments. Indicates the name of target environment.
+            For deployments.
+            The name of the environment variable that indicates the name of target environment.
             Default is the CircleCI Job Name.
-        type: string
+        type: env_var_name
     environment_type:
         # NOTE: change this to ENVIRONMENT_TYPE if you want to use the $ENVIRONMENT_TYPE environment variable instead.
         default: ENVIRONMENT
@@ -46,12 +47,10 @@ steps:
       name: COMPASS - Setting Success Condition
       when: on_success
   - run:
-      command: |4-
-            echo "export ENVIRONMENT_NAME=${ENVIRONMENT_NAME}" >> $BASH_ENV
-              source $BASH_ENV
-              echo "Using displayName: $ENVIRONMENT_NAME"
-      environment:
-          ENVIRONMENT_NAME: $<<parameters.environment>>
+      command: |
+        echo "export ENVIRONMENT_NAME=${<< <parameters.environment >>}" >> $BASH_ENV
+        source $BASH_ENV
+        echo "Using displayName: $ENVIRONMENT_NAME"
       name: COMPASS - Set Environment Name
       when: always
   - run:
