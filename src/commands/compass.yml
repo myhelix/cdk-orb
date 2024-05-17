@@ -48,7 +48,7 @@ steps:
       when: on_success
   - run:
       command: |
-        echo "export ENVIRONMENT_NAME=${<< <parameters.environment >>}" >> $BASH_ENV
+        echo "export ENVIRONMENT_NAME=\"${<< <parameters.environment >>}\"" >> $BASH_ENV
         source $BASH_ENV
         echo "Using displayName: $ENVIRONMENT_NAME"
       name: COMPASS - Set Environment Name
