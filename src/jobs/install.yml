@@ -23,6 +23,14 @@ parameters:
     description: the version of node to use in executor
     type: string
     default: "18.13.0"
+  environment:
+    default: ENVIRONMENT
+    description: The environment to apply on.
+    type: string
+  environment_type:
+    default: ENVIRONMENT_TYPE
+    description: The environment to apply on.
+    type: env_var_name
 
 steps:
   - checkout
@@ -58,3 +66,5 @@ steps:
       root: << parameters.attach_at >>
       paths:
         - .
+  - compass:
+      environment_type: << parameters.environment_type >>
