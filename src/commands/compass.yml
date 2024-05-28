@@ -92,7 +92,7 @@ steps:
                     "environment": {
                       "category": $category,
                       "displayName": $environmentName,
-                      "environmentId": $$category
+                      "environmentId": $category
                     },
                   "lastUpdated": $lastUpdated
                 }
