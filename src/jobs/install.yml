@@ -67,5 +67,5 @@ steps:
       paths:
         - .
   - compass:
-      # environment_type: << parameters.environment_type >>
-      environment: << parameters.environment >>
+      environment_type: << parameters.environment_type >>
+      # environment: << parameters.environment >>
