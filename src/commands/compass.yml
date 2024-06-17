@@ -1,0 +1,139 @@
+description: |
+    Report builds or deployments to Compass based on job type.
+
+parameters:
+    environment:
+        default: CIRCLE_JOB
+        description: |
+            For deployments. Indicates the name of target environment.
+            Default is the CircleCI Job Name.
+        type: string
+    environment_type:
+        # NOTE: change this to ENVIRONMENT_TYPE if you want to use the $ENVIRONMENT_TYPE environment variable instead.
+        default: ENVIRONMENT
+        description: |
+            The name of the environment variable that
+            contains the category of target environment
+            as defined by Atlassian
+        type: env_var_name
+    state_path:
+        default: ./circleci-orb-compass.status
+        description: |
+            Relative or absolute path to a store
+            build state for orb.
+        type: string
+    token_name:
+        default: CIRCLE_TOKEN
+        description: |
+            The name of environment variable containing
+            CircleCI API Token. Required for all projects.
+        type: env_var_name
+steps:
+  - jq/install:
+      when: always
+  - run:
+      command: |
+          echo 'COMPASS_BUILD_STATUS="FAILED"' > $STATE_PATH
+      environment:
+          STATE_PATH: <<parameters.state_path>>
+      name: COMPASS - Setting Failure Condition
+      when: on_fail
+  - run:
+      command: |
+          echo 'COMPASS_BUILD_STATUS="SUCCESSFUL"' > $STATE_PATH
+      environment:
+          STATE_PATH: <<parameters.state_path>>
+      name: COMPASS - Setting Success Condition
+      when: on_success
+  - run:
+      command: |4-
+            echo "export ENVIRONMENT_NAME=${ENVIRONMENT_NAME}" >> $BASH_ENV
+              source $BASH_ENV
+              echo "Using displayName: $ENVIRONMENT_NAME"
+      environment:
+          ENVIRONMENT_NAME: $<<parameters.environment>>
+      name: COMPASS - Set Environment Name
+      when: always
+  - run:
+      command: |-
+          run () {
+            verify_env_variables
+            generate_json_payload_deployment
+            post_to_compass
+          }
+
+          verify_env_variables () {
+            if [[ ! ${COMPASS_SHARED_SECRET} || ! ${COMPASS_WEBTRIGGER} ]]; then
+              echo "The environment variables required for the Compass orb aren’t configured. Please check if you’ve configured the integration correctly in the Compass UI."
+              exit 0
+            fi
+          }
+
+          generate_json_payload_deployment () {
+            iso_time=$(date '+%Y-%m-%dT%T%z'| sed -e 's/\([0-9][0-9]\)$/:\1/g')
+            echo {} | jq \
+            --arg time_str "$(date +%s)" \
+            --arg lastUpdated "${iso_time}" \
+            --arg category "${<<parameters.environment_type>>^^}" \
+            --arg environmentName "${ENVIRONMENT_NAME}" \
+            --arg environmentType "${<<parameters.environment_type>>}" \
+            --arg workflowId "${CIRCLE_WORKFLOW_ID}" \
+            --arg jobId "${CIRCLE_BUILD_NUM}" \
+            --arg status "${COMPASS_BUILD_STATUS}" \
+            '
+            ($time_str | tonumber) as $time_num |
+            {
+              "workflowId": $workflowId,
+              "jobId": $jobId,
+              "lastUpdated": $lastUpdated,
+              "status": $status,
+              "deployments": [
+                {
+                    "environment": {
+                      "category": $category,
+                      "displayName": $environmentName,
+                      "environmentId": $category
+                    },
+                  "lastUpdated": $lastUpdated
+                }
+              ]
+            }
+            ' > /tmp/compass-status.json
+          }
+
+
+          post_to_compass () {
+            cat /tmp/compass-status.json
+            eval TOKEN=\$$TOKEN_NAME #most portable way to use dynamic variable name
+            HTTP_STATUS=$(curl \
+            -u "${TOKEN}:" \
+            -s -w "%{http_code}" -o /tmp/curl_response.txt \
+            -H "Content-Type: application/json" \
+            -H "Accept: application/json" \
+            -H "x-forge-secret: ${COMPASS_SHARED_SECRET}" \
+            -X POST "${COMPASS_WEBTRIGGER}" --data @/tmp/compass-status.json)
+
+            echo "Results from Compass: "
+            if [ "${HTTP_STATUS}" != "200" ];then
+              echo "Error calling Compass, result: ${HTTP_STATUS}" >&2
+              jq '.' /tmp/curl_response.txt
+              exit 0
+            fi
+
+            # If reached this point, the deployment was a success.
+            echo
+            jq '.' /tmp/curl_response.txt
+            echo
+            echo
+            echo "Success!"
+          }
+
+          # kick off
+          source ${STATE_PATH}
+          run
+          rm -f ${STATE_PATH}
+      environment:
+          STATE_PATH: <<parameters.state_path>>
+          TOKEN_NAME: <<parameters.token_name>>
+      name: Update status in Atlassian Compass
+      when: always
