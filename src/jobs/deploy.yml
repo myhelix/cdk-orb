@@ -1,42 +1,46 @@
-description: >
-  cdk deploy
+description: 'cdk deploy
 
+  '
 executor:
   name: default
   tag: << parameters.node_version >>
-
 parameters:
   attach_at:
+    default: .
     description: where should we attach the workspace
-    default: "."
     type: string
-  cdk_directory:
-    description: the directory where your cdk app resides
-    type: string
-    default: "."
-  cdk_params:
-    description: the parameters to pass your cdk command
-    type: string
-    default: "--require-approval=never --ci --progress=events "
-  cdk_stack:
-    description: the stack to deploy
-    type: string
-    default: "'*'"
   aws_access_key_id:
     default: AWS_ACCESS_KEY_ID
-    description: |
-      AWS access key id for IAM role. Set this to the name of the environment variable you will set to hold this value, i.e. AWS_ACCESS_KEY.
+    description: 'AWS access key id for IAM role. Set this to the name of the environment
+      variable you will set to hold this value, i.e. AWS_ACCESS_KEY.
+
+      '
     type: env_var_name
   aws_account_id:
     default: AWS_ACCOUNT_ID
-    description: |
-      Name of environment variable storing the Amazon account ID.
+    description: 'Name of environment variable storing the Amazon account ID.
+
+      '
     type: env_var_name
   aws_secret_access_key:
     default: AWS_SECRET_ACCESS_KEY
-    description: |
-      AWS secret key for IAM role. Set this to the name of the environment variable you will set to hold this value, i.e. AWS_SECRET_ACCESS_KEY.
+    description: 'AWS secret key for IAM role. Set this to the name of the environment
+      variable you will set to hold this value, i.e. AWS_SECRET_ACCESS_KEY.
+
+      '
     type: env_var_name
+  cdk_directory:
+    default: .
+    description: the directory where your cdk app resides
+    type: string
+  cdk_params:
+    default: '--require-approval=never --ci --progress=events '
+    description: the parameters to pass your cdk command
+    type: string
+  cdk_stack:
+    default: '''*'''
+    description: the stack to deploy
+    type: string
   environment:
     default: ENVIRONMENT
     description: The environment to apply on.
@@ -45,6 +49,18 @@ parameters:
     default: ENVIRONMENT_TYPE
     description: The environment to apply on.
     type: env_var_name
+  go_version:
+    default: 1.15.10
+    description: the version of go to install
+    type: string
+  install_go:
+    default: false
+    description: whether to install golang
+    type: boolean
+  node_version:
+    default: 18.13.0
+    description: the version of node to use in executor
+    type: string
   notify:
     default: false
     description: whether to notify slack
@@ -53,38 +69,25 @@ parameters:
     default: false
     description: enable docker
     type: boolean
-  install_go:
-    default: false
-    description: whether to install golang
-    type: boolean
-  go_version:
-    description: the version of go to install
-    type: string
-    default: "1.15.10"
-  node_version:
-    description: the version of node to use in executor
-    type: string
-    default: "18.13.0"
-
 steps:
-  - when:
-      condition: <<parameters.setup_remote_docker>>
-      steps:
-        - setup_remote_docker:
-            version: 19.03.13
-        - aws-ecr/ecr-login
-  - esbuild
-  - fix-git
-  - cdk:
-      attach_at: << parameters.attach_at >>
-      cdk_command: deploy
-      cdk_directory: << parameters.cdk_directory >>
-      cdk_params: << parameters.cdk_params >>
-      cdk_stack: << parameters.cdk_stack >>
-      aws_access_key_id: << parameters.aws_access_key_id >>
-      aws_account_id: << parameters.aws_account_id >>
-      aws_secret_access_key: << parameters.aws_secret_access_key >>
-      environment: << parameters.environment >>
-      notify: << parameters.notify >>
-      install_go: << parameters.install_go >>
-      go_version: << parameters.go_version >>
+- when:
+    condition: <<parameters.setup_remote_docker>>
+    steps:
+    - setup_remote_docker:
+        version: default
+    - aws-ecr/ecr-login
+- esbuild
+- fix-git
+- cdk:
+    attach_at: << parameters.attach_at >>
+    aws_access_key_id: << parameters.aws_access_key_id >>
+    aws_account_id: << parameters.aws_account_id >>
+    aws_secret_access_key: << parameters.aws_secret_access_key >>
+    cdk_command: deploy
+    cdk_directory: << parameters.cdk_directory >>
+    cdk_params: << parameters.cdk_params >>
+    cdk_stack: << parameters.cdk_stack >>
+    environment: << parameters.environment >>
+    go_version: << parameters.go_version >>
+    install_go: << parameters.install_go >>
+    notify: << parameters.notify >>
