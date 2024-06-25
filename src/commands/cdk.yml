@@ -57,6 +57,10 @@ parameters:
     description: the version of go to install
     type: string
     default: "1.15.10"
+  no_output_timeout:
+    description: how long to wait for a job with no output before timing out
+    type: string
+    default: 60m
 
 steps:
   - attach_workspace:
@@ -78,7 +82,7 @@ steps:
       working_directory: << parameters.attach_at >>
   - run:
       name: Run Cdk Command
-      no_output_timeout: 60m
+      no_output_timeout: << parameters.no_output_timeout >>
       working_directory: << parameters.attach_at >>
       command: |
         assume_creds=$(aws sts assume-role --role-session-name ${CIRCLE_WORKFLOW_ID} --role-arn arn:aws:iam::$AWS_ACCOUNT_ID:role/$ASSUME_AWS_PROFILE)
