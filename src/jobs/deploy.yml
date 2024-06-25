@@ -57,7 +57,7 @@ parameters:
     default: false
     description: whether to install golang
     type: boolean
-  go_version:
+      version: default
     description: the version of go to install
     type: string
     default: "1.15.10"
@@ -71,7 +71,7 @@ steps:
       condition: <<parameters.setup_remote_docker>>
       steps:
         - setup_remote_docker:
-            version: 19.03.13
+      version: default
         - aws-ecr/ecr-login
   - esbuild
   - fix-git
