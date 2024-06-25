@@ -41,6 +41,10 @@ parameters:
     default: ENVIRONMENT
     description: The environment to apply on.
     type: env_var_name
+  environment_type:
+    default: ENVIRONMENT_TYPE
+    description: The environment to apply on.
+    type: env_var_name
   notify:
     default: false
     description: whether to notify slack
@@ -84,6 +88,8 @@ steps:
         cd << parameters.cdk_directory >>
         npx cdk << parameters.cdk_command >> << parameters.cdk_stack >> << parameters.cdk_params >>
   - rollbar #notify
+  - compass:
+      environment_type: << parameters.environment_type >>
   - when:
       condition: <<parameters.notify>>
       steps:
