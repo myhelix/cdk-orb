@@ -56,7 +56,6 @@ steps:
       when: always
   - run:
       command: |-
-          set +e
           run () {
             verify_env_variables
             generate_json_payload_deployment
@@ -132,12 +131,7 @@ steps:
           # kick off
           source ${STATE_PATH}
           run
-          run_status=$?
           rm -f ${STATE_PATH}
-
-          if [ $run_status -ne 0 ]; then
-            echo "Compass step got failed"
-          fi
       environment:
           STATE_PATH: <<parameters.state_path>>
           TOKEN_NAME: <<parameters.token_name>>
