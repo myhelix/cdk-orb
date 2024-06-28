@@ -72,7 +72,7 @@ steps:
       steps:
         - setup_remote_docker:
             version: 19.03.13
-        - aws-ecr/ecr-login
+        - aws-ecr/ecr_login
   - esbuild
   - fix-git
   - cdk:
