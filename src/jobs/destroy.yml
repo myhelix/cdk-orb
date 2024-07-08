@@ -66,3 +66,6 @@ steps:
       aws_secret_access_key: << parameters.aws_secret_access_key >>
       environment: << parameters.environment >>
       notify: << parameters.notify >>
+  - rollbar #notify
+  - compass:
+      environment_type: << parameters.environment_type >>
