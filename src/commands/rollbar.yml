@@ -33,7 +33,4 @@ steps:
           --form environment=$<< parameters.environment >> \
           --form revision=$CIRCLE_SHA1 \
           --form local_username=$CIRCLE_USERNAME
-# - notify_deploy:
-#     attach_at: << parameters.attach_at >>
-#     environment: << parameters.environment >>
-#     node_version: << parameters.node_version >>
+

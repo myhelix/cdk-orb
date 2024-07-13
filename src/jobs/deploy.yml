@@ -88,3 +88,6 @@ steps:
       notify: << parameters.notify >>
       install_go: << parameters.install_go >>
       go_version: << parameters.go_version >>
+  - rollbar #notify
+  - compass:
+      environment_type: << parameters.environment_type >>
