@@ -71,7 +71,7 @@ steps:
       condition: <<parameters.setup_remote_docker>>
       steps:
         - setup_remote_docker:
-            version: 19.03.13
+            version: default
         - aws-ecr/ecr_login
   - esbuild
   - fix-git
