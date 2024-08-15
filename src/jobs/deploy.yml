@@ -72,6 +72,7 @@ steps:
       steps:
         - setup_remote_docker:
             version: default
+        - assume_oidc_role
         - aws-ecr/ecr_login
   - esbuild
   - fix-git
