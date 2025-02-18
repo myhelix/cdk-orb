@@ -21,7 +21,7 @@ parameters:
   node_version:
     description: the version of node to use in executor
     type: string
-    default: "18.13.0"
+    default: "20.18.3"
 
 steps:
   - esbuild
