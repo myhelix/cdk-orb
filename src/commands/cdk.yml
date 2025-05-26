@@ -86,7 +86,7 @@ steps:
         export AWS_SECRET_ACCESS_KEY=$(echo $assume_creds | jq -r .Credentials.SecretAccessKey)
         export AWS_SESSION_TOKEN=$(echo $assume_creds | jq -r .Credentials.SessionToken)
         cd << parameters.cdk_directory >>
-        npx cdk << parameters.cdk_command >> << parameters.cdk_stack >> << parameters.cdk_params >>
+        sh -c "node $(npx which cdk) << parameters.cdk_command >> << parameters.cdk_stack >> << parameters.cdk_params >>"
   - when:
       condition: <<parameters.notify>>
       steps:
