@@ -77,20 +77,124 @@ steps:
       command: yarn list
       working_directory: << parameters.attach_at >>
   - run:
+      name: Gather Debug Information
+      working_directory: << parameters.attach_at >>
+      shell: /bin/bash
+      command: |
+        mkdir -p /tmp/debug-info
+
+        echo "=== System Information ===" | tee -a /tmp/debug-info/system-info.txt
+        uname -a | tee -a /tmp/debug-info/system-info.txt
+        cat /etc/os-release | tee -a /tmp/debug-info/system-info.txt
+
+        echo "=== User Information ===" | tee -a /tmp/debug-info/user-info.txt
+        id | tee -a /tmp/debug-info/user-info.txt
+        echo "SHELL=$SHELL" | tee -a /tmp/debug-info/user-info.txt
+        echo "Current shell=$0" | tee -a /tmp/debug-info/user-info.txt
+
+        echo "=== Directory Structure ===" | tee -a /tmp/debug-info/dir-structure.txt
+        pwd | tee -a /tmp/debug-info/dir-structure.txt
+        ls -la | tee -a /tmp/debug-info/dir-structure.txt
+
+        echo "=== Environment Variables ===" | tee -a /tmp/debug-info/env-vars.txt
+        env | sort | tee -a /tmp/debug-info/env-vars.txt
+
+        echo "=== Node.js Information ===" | tee -a /tmp/debug-info/node-info.txt
+        echo "Node.js version: $(node --version)" | tee -a /tmp/debug-info/node-info.txt
+        echo "NPM version: $(npm --version)" | tee -a /tmp/debug-info/node-info.txt
+        echo "Global packages:" | tee -a /tmp/debug-info/node-info.txt
+        npm list -g --depth=0 | tee -a /tmp/debug-info/node-info.txt
+        echo "Local packages:" | tee -a /tmp/debug-info/node-info.txt
+        npm list --depth=0 | tee -a /tmp/debug-info/node-info.txt
+
+        echo "=== NPX Information ===" | tee -a /tmp/debug-info/npx-info.txt
+        echo "NPX path: $(which npx)" | tee -a /tmp/debug-info/npx-info.txt
+        echo "NPX version: $(npx --version)" | tee -a /tmp/debug-info/npx-info.txt
+
+        echo "=== CDK Information ===" | tee -a /tmp/debug-info/cdk-info.txt
+        echo "CDK version: $(npx cdk --version 2>&1 || echo 'CDK version command failed')" | tee -a /tmp/debug-info/cdk-info.txt
+        echo "CDK path: $(npx which cdk 2>&1 || echo 'CDK path command failed')" | tee -a /tmp/debug-info/cdk-info.txt
+        echo "Finding all CDK binaries:" | tee -a /tmp/debug-info/cdk-info.txt
+        find / -name cdk -type f 2>/dev/null | grep -v "node_modules/.bin/cdk" | tee -a /tmp/debug-info/cdk-info.txt || echo "No other CDK binaries found" | tee -a /tmp/debug-info/cdk-info.txt
+
+        echo "=== NPX Temporary Directory Information ===" | tee -a /tmp/debug-info/npx-temp-info.txt
+        echo "Listing /home/circleci/.npm/_npx directory:" | tee -a /tmp/debug-info/npx-temp-info.txt
+        ls -la /home/circleci/.npm/_npx 2>&1 | tee -a /tmp/debug-info/npx-temp-info.txt
+
+        # Find the most recent npx directory
+        NPX_DIRS=$(ls -t /home/circleci/.npm/_npx 2>/dev/null || echo "")
+        if [ -n "$NPX_DIRS" ]; then
+          LATEST_NPX_DIR=$(echo "$NPX_DIRS" | head -n 1)
+          echo "Latest NPX directory: $LATEST_NPX_DIR" | tee -a /tmp/debug-info/npx-temp-info.txt
+
+          # Check if the .bin directory exists
+          if [ -d "/home/circleci/.npm/_npx/$LATEST_NPX_DIR/node_modules/.bin" ]; then
+            echo "Listing .bin directory contents:" | tee -a /tmp/debug-info/npx-temp-info.txt
+            ls -la /home/circleci/.npm/_npx/$LATEST_NPX_DIR/node_modules/.bin | tee -a /tmp/debug-info/npx-temp-info.txt
+
+            # Check if cdk exists and examine it
+            if [ -f "/home/circleci/.npm/_npx/$LATEST_NPX_DIR/node_modules/.bin/cdk" ]; then
+              echo "CDK executable found, showing file type:" | tee -a /tmp/debug-info/npx-temp-info.txt
+              file /home/circleci/.npm/_npx/$LATEST_NPX_DIR/node_modules/.bin/cdk | tee -a /tmp/debug-info/npx-temp-info.txt
+
+              echo "CDK executable permissions:" | tee -a /tmp/debug-info/npx-temp-info.txt
+              ls -la /home/circleci/.npm/_npx/$LATEST_NPX_DIR/node_modules/.bin/cdk | tee -a /tmp/debug-info/npx-temp-info.txt
+
+              echo "First 20 lines of CDK executable:" | tee -a /tmp/debug-info/npx-temp-info.txt
+              head -n 20 /home/circleci/.npm/_npx/$LATEST_NPX_DIR/node_modules/.bin/cdk | tee -a /tmp/debug-info/npx-temp-info.txt
+            elif [ -d "/home/circleci/.npm/_npx/$LATEST_NPX_DIR/node_modules/.bin/cdk" ]; then
+              echo "CDK is a directory, listing contents:" | tee -a /tmp/debug-info/npx-temp-info.txt
+              ls -la /home/circleci/.npm/_npx/$LATEST_NPX_DIR/node_modules/.bin/cdk | tee -a /tmp/debug-info/npx-temp-info.txt
+            else
+              echo "CDK executable not found in .bin directory" | tee -a /tmp/debug-info/npx-temp-info.txt
+            fi
+          else
+            echo "No .bin directory found in latest NPX directory" | tee -a /tmp/debug-info/npx-temp-info.txt
+          fi
+        else
+          echo "No NPX temporary directories found" | tee -a /tmp/debug-info/npx-temp-info.txt
+        fi
+
+        echo "=== Package Information ===" | tee -a /tmp/debug-info/package-info.txt
+        if [ -f "package.json" ]; then
+          echo "package.json exists:" | tee -a /tmp/debug-info/package-info.txt
+          cat package.json | tee -a /tmp/debug-info/package-info.txt
+        else
+          echo "No package.json found" | tee -a /tmp/debug-info/package-info.txt
+        fi
+
+        # Create a tarball of all debug info
+        tar -czf /tmp/debug-info.tar.gz -C /tmp debug-info
+
+        # Store as an artifact
+        mkdir -p /tmp/artifacts
+        mv /tmp/debug-info.tar.gz /tmp/artifacts/
+  - store_artifacts:
+      path: /tmp/artifacts
+      destination: debug-info
+  - run:
       name: Run Cdk Command
       no_output_timeout: 60m
       working_directory: << parameters.attach_at >>
+      shell: /bin/bash
       command: |
         assume_creds=$(aws sts assume-role --role-session-name ${CIRCLE_WORKFLOW_ID} --role-arn arn:aws:iam::$AWS_ACCOUNT_ID:role/$ASSUME_AWS_PROFILE)
         export AWS_ACCESS_KEY_ID=$(echo $assume_creds | jq -r .Credentials.AccessKeyId)
         export AWS_SECRET_ACCESS_KEY=$(echo $assume_creds | jq -r .Credentials.SecretAccessKey)
         export AWS_SESSION_TOKEN=$(echo $assume_creds | jq -r .Credentials.SessionToken)
         cd << parameters.cdk_directory >>
-        sh -c "node $(npx which cdk) << parameters.cdk_command >> << parameters.cdk_stack >> << parameters.cdk_params >>"
+
+        # Check if parameters contain a TypeScript file
+        if [[ "<< parameters.cdk_params >>" == *"-a "*.ts* ]]; then
+          echo "TypeScript file detected in CDK parameters, installing ts-node..."
+          npm install --no-save ts-node typescript
+        fi
+
+        # Run CDK command
+        npx cdk << parameters.cdk_command >> << parameters.cdk_stack >> << parameters.cdk_params >>
   - when:
       condition: <<parameters.notify>>
       steps:
         - slack/notify:
             color: '#22e33f'
             message: 'Deployed to << parameters.environment >>.'
-
