@@ -86,11 +86,11 @@ steps:
         export AWS_SECRET_ACCESS_KEY=$(echo $assume_creds | jq -r .Credentials.SecretAccessKey)
         export AWS_SESSION_TOKEN=$(echo $assume_creds | jq -r .Credentials.SessionToken)
         cd << parameters.cdk_directory >>
-        if grep '"bin"' package.json -A 2 | grep -qE '"cdk":|'\''cdkb'\'':'; then
+        if grep '"bin"' package.json -A 2 | grep -qE '"cdk":|'\''cdk'\'':'; then
           echo "'cdk: ...' bin found in package.json bin field which causes a conflict with npx cdk command resolution. Please re-name"
           exit 1
         fi
-        npx cdk << parameters.cdk_command >> << parameters.cdk_stack >> << parameters.cdk_params >>"
+        npx cdk << parameters.cdk_command >> << parameters.cdk_stack >> << parameters.cdk_params >>
   - when:
       condition: <<parameters.notify>>
       steps:
