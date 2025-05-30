@@ -65,12 +65,7 @@ parameters:
     description: the version of node to use in executor
     type: string
     default: "20.18.3"
-  custom_resource_class:
-    description: the resource class to use
-    type: string
-    default: "large"
 
-resource_class: << parameters.custom_resource_class >>
 steps:
   - when:
       condition: <<parameters.setup_remote_docker>>
