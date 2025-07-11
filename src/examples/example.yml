@@ -6,8 +6,10 @@ description: >
 usage:
   version: 2.1
   orbs:
-    cdk: helix/cdk@1.2.3
+    hterraform: helix/hterraform@1.2.3
+    oidc: myhelix/oidc@1
   workflows:
     use-my-orb:
       jobs:
-        - cdk/<job-name>
+        - hterraform/plan-comment:
+            aws_role_arn: "arn:aws:iam::123456789012:role/terraform-oidc-role"

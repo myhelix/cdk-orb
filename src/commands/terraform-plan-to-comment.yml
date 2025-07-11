@@ -1,0 +1,81 @@
+description: >
+  Posts terraform plan outputs as comments to GitHub PRs
+
+parameters:
+  aws_secret_name:
+    description: Name of the AWS secret containing GitHub token
+    type: string
+    default: "github/api-token"
+  aws_region:
+    description: AWS region where the secret is stored
+    type: string
+    default: "us-east-1"
+  plan_file_path:
+    description: Path to the terraform plan output file
+    type: string
+    default: "/tmp/plan.txt"
+  github_token_env:
+    description: Environment variable name for GitHub token (if not using AWS Secrets Manager)
+    type: env_var_name
+    default: "GITHUB_TOKEN"
+  use_aws_secret:
+    description: Whether to fetch GitHub token from AWS Secrets Manager (true) or use provided token env var (false)
+    type: boolean
+    default: true
+  custom_comment_prefix:
+    description: Custom prefix text for the GitHub PR comment
+    type: string
+    default: "### Terraform Plan Output"
+
+steps:
+  - run:
+      name: Verify terraform plan file exists
+      command: |
+        if [ ! -f "<< parameters.plan_file_path >>" ]; then
+          echo "Error: Terraform plan file not found at << parameters.plan_file_path >>"
+          echo "Please ensure terraform plan has been run first."
+          exit 1
+        fi
+  - when:
+      condition: << parameters.use_aws_secret >>
+      steps:
+        - run:
+            name: Fetch GitHub token from AWS Secrets Manager
+            command: |
+              # Fetch GitHub token from AWS Secrets Manager
+              GITHUB_TOKEN_JSON=$(aws secretsmanager get-secret-value --secret-id << parameters.aws_secret_name >> --region << parameters.aws_region >> --query SecretString --output text)
+              
+              # Extract token from JSON (assumes JSON format {"token": "value"})
+              export GITHUB_TOKEN=$(echo $GITHUB_TOKEN_JSON)
+              
+              # Verify token was retrieved
+              if [ -z "$GITHUB_TOKEN" ]; then
+                echo "Error: Failed to retrieve GitHub token from AWS Secrets Manager"
+                exit 1
+              fi
+              
+              echo "Successfully retrieved GitHub token"
+              
+              # Store token in BASH_ENV so it's available in next steps
+              echo "export GITHUB_TOKEN=$GITHUB_TOKEN" >> $BASH_ENV
+  - run:
+      name: Post terraform plan to GitHub PR
+      command: |
+        # Extract PR number from GitHub API if this is a PR
+        PR_NUMBER=$(echo $CIRCLE_PULL_REQUEST | grep -o '[0-9]\+$' || echo "")
+        
+        if [ -n "$PR_NUMBER" ]; then
+          # Format plan output for GitHub comment - escape newlines for JSON
+          PLAN_OUTPUT=$(cat << parameters.plan_file_path >> | sed 's/$/\\n/' | tr -d '\n')
+          
+          # Post comment to GitHub PR
+          curl -X POST \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/issues/${PR_NUMBER}/comments" \
+            -d "{\"body\":\"<< parameters.custom_comment_prefix >>\n\`\`\`\n${PLAN_OUTPUT}\n\`\`\`\"}"
+          
+          echo "Posted terraform plan to PR #${PR_NUMBER}"
+        else
+          echo "Not a PR build, skipping GitHub comment"
+        fi

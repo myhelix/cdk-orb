@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   # Replace this with your own!
-  # cdk: helix/cdk@<<pipeline.parameters.dev-orb-version>>
+  # hterraform: helix/hterraform@<<pipeline.parameters.dev-orb-version>>
   orb-tools: circleci/orb-tools@10.0.3
   bats: circleci/bats@1.0
   shellcheck: circleci/shellcheck@2.0
@@ -23,19 +23,6 @@ parameters:
     type: string
     default: "dev:alpha"
 
-jobs:
-  # Define one or more jobs which will utilize your orb's commands and parameters to validate your changes.
-  # integration-test-1:
-  #   docker:
-  #     - image: cimg/base:stable
-  #   steps:
-  #     - checkout
-  #     # "greet" is a sample command packaged with this orb config.
-  #     # This sample integration test will run as long as the greet command exists. Once you remove the greet command you should remove this line.
-  #     # Push new changes first, before adding new tests to your config.
-  #     - cdk/
-
-
 workflows:
   # Prior to producing a development orb (which requires credentials) basic validation, linting, and even unit testing can be performed.
   # This workflow will run on every commit
@@ -52,7 +39,7 @@ workflows:
           path: ./src/tests
       # Publish development version(s) of the orb.
       - orb-tools/publish-dev:
-          orb-name: helix/cdk
+          orb-name: helix/hterraform
           context: orb-publishing # A restricted context containing your private publishing credentials. Will only execute if approved by an authorized user.
           requires:
             - orb-tools/lint
@@ -83,7 +70,7 @@ workflows:
       # be skipped.
       # e.g. [semver:patch] will cause a patch version to be published.
       - orb-tools/dev-promote-prod-from-commit-subject:
-          orb-name: helix/cdk
+          orb-name: helix/hterraform
           context: orb-publishing
           add-pr-comment: false
           fail-if-semver-not-indicated: true

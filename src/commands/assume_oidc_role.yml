@@ -6,4 +6,3 @@ steps:
       profile-name: "default"
       role-arn: "arn:aws:iam::${AWS_ACCOUNT_ID}:role/${ASSUME_AWS_PROFILE}"
       role-session-name: ${CIRCLE_WORKFLOW_ID}
-
