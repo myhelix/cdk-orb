@@ -57,6 +57,10 @@ parameters:
     description: the version of go to install
     type: string
     default: "1.15.10"
+  clear_docker_config:
+    default: false
+    description: whether to clear ~/.docker/config.json
+    type: boolean
 
 steps:
   - attach_workspace:
@@ -76,6 +80,12 @@ steps:
       name: yarn list
       command: yarn list
       working_directory: << parameters.attach_at >>
+  - when:
+      condition: <<parameters.clear_docker_config>>
+      steps:
+        - run:
+            name: Clear Docker Config
+            command: rm -f ~/.docker/config.json
   - run:
       name: Run Cdk Command
       no_output_timeout: 60m

@@ -69,6 +69,10 @@ parameters:
     description: the resource class to use
     type: string
     default: "large"
+  clear_docker_config:
+    description: remove ~/.docker/config.json before running the job
+    type: boolean
+    default: false
 
 resource_class: << parameters.custom_resource_class >>
 steps:
@@ -94,6 +98,7 @@ steps:
       notify: << parameters.notify >>
       install_go: << parameters.install_go >>
       go_version: << parameters.go_version >>
+      clear_docker_config: << parameters.clear_docker_config >>
   - rollbar #notify
   - compass:
       environment_type: << parameters.environment_type >>
