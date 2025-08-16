@@ -85,12 +85,6 @@ steps:
         - aws-ecr/ecr_login
   - esbuild
   - fix-git
-  - when:
-      condition: <<parameters.clear_docker_config>>
-      steps:
-        - run:
-            name: Clear Docker Config
-            command: rm -f ~/.docker/config.json
   - cdk:
       attach_at: << parameters.attach_at >>
       cdk_command: deploy
@@ -104,6 +98,7 @@ steps:
       notify: << parameters.notify >>
       install_go: << parameters.install_go >>
       go_version: << parameters.go_version >>
+      clear_docker_config: << parameters.clear_docker_config >>
   - rollbar #notify
   - compass:
       environment_type: << parameters.environment_type >>
