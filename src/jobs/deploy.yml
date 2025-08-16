@@ -69,6 +69,10 @@ parameters:
     description: the resource class to use
     type: string
     default: "large"
+  clear_docker_config:
+    description: remove ~/.docker/config.json before running the job
+    type: boolean
+    default: false
 
 resource_class: << parameters.custom_resource_class >>
 steps:
@@ -81,6 +85,12 @@ steps:
         - aws-ecr/ecr_login
   - esbuild
   - fix-git
+  - when:
+      condition: <<parameters.clear_docker_config>>
+      steps:
+        - run:
+            name: Clear Docker Config
+            command: rm -f ~/.docker/config.json
   - cdk:
       attach_at: << parameters.attach_at >>
       cdk_command: deploy
